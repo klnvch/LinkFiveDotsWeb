@@ -1,0 +1,93 @@
+{
+  "common": {
+    "ok": "OK",
+    "appName": "Link Five Dots",
+    "create": "CREATE",
+    "delete": "DELETE",
+    "scan": "SCAN",
+    "cancel": "CANCEL",
+    "save": "Save",
+    "settings": "Settings",
+    "noRooms": "No results",
+    "loading": "Loading...",
+    "initializing": "Initializing...",
+    "signingIn": "Signing in...",
+    "ready": "Ready",
+    "signInFailed": "Sign-in failed",
+    "connecting": "Connecting…",
+    "pleaseWait": "Please wait…",
+    "searching": "Searching…",
+    "disconnected": "Disconnected",
+    "gameOverWin": "You Win!",
+    "gameOverLose": "You Lose.",
+    "gameMove": "Your Turn!",
+    "gameWait": "Waiting on opponent…",
+    "greetings": "Hi, {{name}}!",
+    "singleplayer": "Single player",
+    "multiplayer": "Multiplayer",
+    "nightMode": "Night Light",
+    "nightModeOption": {
+      "system": "System",
+      "light": "Off",
+      "dark": "On"
+    },
+    "dots": "Dots"
+  },
+  "options": {
+    "new": "New",
+    "undo": "Undo"
+  },
+  "menu": {
+    "help": "Help"
+  },
+  "room": {
+    "unknownUser": "Unknown",
+    "botUser": "Computer",
+    "name": "Name",
+    "nameNotSet": "Not set",
+    "connectionDialogText": "Do you want to connect to '{{name}}'?",
+    "disconnectDialogText": "Disconnect?"
+  },
+  "settings": {
+    "language": "Language",
+    "languageName": "English",
+    "main_clear_title": "Erase everything",
+    "main_clear_confirm_title": "Erase all data?"
+  }
+  ,
+  "info": {
+    "title": "App Info",
+    "version": "version {{version}}",
+    "github": "GitHub",
+    "rate": "Rate this app",
+    "email": "Send e-mail",
+    "share": "Share",
+    "copied": "Link copied to clipboard"
+  },
+  "help": {
+    "title": "Help",
+    "mainTitle": "How to Play Link Five Dots",
+    "intro": "Link Five Dots is a classic strategy game where two players compete on a grid to get five of their symbols in a row. The game is available in single and multiplayer modes.",
+    "rulesTitle": "Rules",
+    "rules": [
+      "The game is played on a grid of dots.",
+      "Players take turns placing their symbol (a blue dot or a red cross) on an empty dot.",
+      "The winner is the first to form an unbroken line of five of their symbols horizontally, vertically, or diagonally.",
+      "If all spaces are filled without five in a row, the game is a draw."
+    ],
+    "modesTitle": "Game Modes",
+    "singlePlayer": "Single Player: Play against a bot or practice by yourself.",
+    "multiPlayer": "Multiplayer: Create or join a room to play against another person online.",
+    "howToTitle": "How to Play",
+    "howToList": [
+      "Click a dot on the board to place your symbol when it is your turn.",
+      "Use the menu buttons to navigate between game modes and settings."
+    ],
+    "tipsTitle": "Tips",
+    "tips": [
+      "Try to block your opponent's progress whenever possible.",
+      "Look for opportunities to create multiple lines at once.",
+      "Forecast your moves to outsmart your opponent."
+    ]
+  }
+} 

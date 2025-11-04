@@ -1,0 +1,95 @@
+{
+  "common": {
+    "ok": "OK",
+    "appName": "Połącz pięć kropek",
+    "create": "UTWÓRZ",
+    "delete": "USUŃ",
+    "scan": "SKANUJ",
+    "cancel": "ANULUJ",
+    "save": "Zapisz",
+    "settings": "Ustawienia",
+    "noRooms": "Brak wyników",
+    "loading": "Ładowanie...",
+    "initializing": "Inicjalizacja...",
+    "signingIn": "Logowanie...",
+    "ready": "Gotowe",
+    "signInFailed": "Logowanie nie powiodło się",
+    "connecting": "Łączenie…",
+    "pleaseWait": "Proszę czekać…",
+    "searching": "Wyszukiwanie…",
+    "disconnected": "Rozłączono",
+    "gameOverWin": "Wygrana!",
+    "gameOverLose": "Przegrana.",
+    "gameMove": "Twoja kolej!",
+    "gameWait": "Oczekiwanie na przeciwnika…",
+    "greetings": "Cześć, {{name}}!",
+    "singleplayer": "Gra solo",
+    "multiplayer": "Wieloosobowa",
+    "nightMode": "Podświetlenie nocne",
+    "nightModeOption": {
+      "system": "System",
+      "light": "Wył.",
+      "dark": "Wł."
+    },
+    "dots": "Kropki"
+  },
+  "options": {
+    "new": "Nowa",
+    "undo": "Cofnij"
+  },
+  "menu": {
+    "help": "Pomoc"
+  },
+  "room": {
+    "unknownUser": "Nieznany",
+    "botUser": "Komputer",
+    "name": "Nazwa",
+    "nameNotSet": "Nie ustawiono",
+    "connectionDialogText": "Czy chcesz połączyć się z '{{name}}'?",
+    "disconnectDialogText": "Rozłączyć?"
+  },
+  "settings": {
+    "language": "Język",
+    "languageName": "Polski",
+    "main_clear_title": "Wykasuj wszystkie dane",
+    "main_clear_confirm_title": "Usunąć wszystkie dane?"
+  }
+  ,
+  "info": {
+    "title": "Informacje o aplikacji",
+    "version": "wersja {{version}}",
+    "github": "GitHub",
+    "rate": "Oceń tę aplikację",
+    "email": "Wyślij e-maila",
+    "share": "Udostępnij",
+    "copied": "Skopiowano link do schowka"
+  },
+  "help": {
+    "title": "Pomoc",
+    "mainTitle": "Jak grać w Połącz pięć kropek",
+    "intro": "Połącz pięć kropek to klasyczna gra strategiczna, w której dwóch graczy rywalizuje na planszy, aby ułożyć pięć swoich symboli w linii. Gra dostępna jest w trybie pojedynczym i wieloosobowym.",
+    "rulesTitle": "Zasady",
+    "rules": [
+      "Gra toczy się na planszy z kropkami.",
+      "Gracze na zmianę umieszczają swój symbol (niebieską kropkę lub czerwony krzyżyk) na pustym miejscu.",
+      "Wygrywa osoba, która jako pierwsza ułoży nieprzerwaną linię z pięciu swoich symboli poziomo, pionowo lub na ukos.",
+      "Jeśli cała plansza jest zapełniona i nikt nie ułożył pięciu w rzędzie, następuje remis."
+    ],
+    "modesTitle": "Tryby gry",
+    "singlePlayer": "Gra solo: Zagraj przeciwko botowi lub trenuj samodzielnie.",
+    "multiPlayer": "Wieloosobowa: Stwórz lub dołącz do pokoju, aby zagrać z inną osobą online.",
+    "howToTitle": "Jak grać",
+    "howToList": [
+      "Kliknij kropkę na planszy, aby postawić swój symbol, gdy jest Twoja kolej.",
+      "Użyj przycisków menu, aby przełączać tryby gry i ustawienia."
+    ],
+    "tipsTitle": "Wskazówki",
+    "tips": [
+      "Staraj się blokować postępy przeciwnika, gdy to możliwe.",
+      "Szukaj okazji do stworzenia kilku linii jednocześnie.",
+      "Planuj swoje ruchy, aby przechytrzyć przeciwnika."
+    ]
+  }
+}
+
+
