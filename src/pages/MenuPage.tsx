@@ -91,7 +91,7 @@ const IconMenuButton: React.FC<IconMenuButtonProps> = ({
   </MenuButton>
 );
 
-export const MenuPage: React.FC = () => {
+const MenuPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -202,3 +202,5 @@ export const MenuPage: React.FC = () => {
     </Page>
   );
 };
+
+export default MenuPage;

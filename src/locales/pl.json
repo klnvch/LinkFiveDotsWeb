@@ -46,7 +46,8 @@
     "name": "Nazwa",
     "nameNotSet": "Nie ustawiono",
     "connectionDialogText": "Czy chcesz połączyć się z '{{name}}'?",
-    "disconnectDialogText": "Rozłączyć?"
+    "disconnectDialogText": "Rozłączyć?",
+    "failedToConnect": "Nie udało się nawiązać połączenia z '{{name}}'."
   },
   "settings": {
     "language": "Język",

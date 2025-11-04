@@ -50,7 +50,7 @@ const switchNightMode = (
   }
 };
 
-export const SettingsPage: React.FC = () => {
+const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
   const { userName, dotsStyleType, setDotsStyleType } = useAppContext();
   const { mode, setMode } = useColorScheme();
@@ -236,3 +236,5 @@ export const SettingsPage: React.FC = () => {
     </Page>
   );
 };
+
+export default SettingsPage;

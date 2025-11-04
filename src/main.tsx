@@ -6,6 +6,7 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import { registerSW } from 'virtual:pwa-register';
 
 const Main = () => {
   const theme = useMemo(
@@ -51,3 +52,6 @@ root.render(
     </BrowserRouter>
   </React.StrictMode>,
 );
+
+// Register Service Worker for PWA (auto-updates)
+registerSW({ immediate: true });

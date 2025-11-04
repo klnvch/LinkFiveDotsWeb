@@ -7,8 +7,13 @@ import { DisconnectDialog } from '../../components/game/DisconnectDialog';
 import { useRoomNavigation } from '../../hooks/multiplayer/useRoomNavigation';
 import { FoundRemoteRoom, PickerScreenGame, Point } from 'LinkFiveDots-shared';
 import { MultiplayerAppBarTitle } from '../../components/MultiplayerAppBarTitle';
+import {
+  isFirebaseConfigured,
+  getMissingFirebaseEnvKeys,
+} from '../../firebase';
+import { ServiceUnavailable } from '../../components/ServiceUnavailable';
 
-export const MultiplayerPage: React.FC = () => {
+const MultiplayerPage: React.FC = () => {
   const {
     pickerViewState,
     gameViewState,
@@ -24,6 +29,10 @@ export const MultiplayerPage: React.FC = () => {
   const navigate = useNavigate();
   const [disconnectOpen, setDisconnectOpen] = useState(false);
   useRoomNavigation(pickerViewState.screen);
+
+  if (!isFirebaseConfigured) {
+    return <ServiceUnavailable missingKeys={getMissingFirebaseEnvKeys()} />;
+  }
 
   const handleCreateRoom = async () => {
     await createRoom();
@@ -99,3 +108,5 @@ export const MultiplayerPage: React.FC = () => {
     </>
   );
 };
+
+export default MultiplayerPage;

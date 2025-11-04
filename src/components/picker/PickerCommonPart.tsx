@@ -1,13 +1,15 @@
-import { PickerCommonViewState } from 'LinkFiveDots-shared';
+import { ConnectException, PickerCommonViewState } from 'LinkFiveDots-shared';
 import { Box, LinearProgress, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface PickerCommonPartProps {
   uiState: PickerCommonViewState;
 }
 
 export const PickerCommonPart: React.FC<PickerCommonPartProps> = ({
-  uiState: { inProgress, msg },
+  uiState: { inProgress, error },
 }) => {
+  const { t } = useTranslation();
   return (
     <Box
       sx={{
@@ -25,9 +27,9 @@ export const PickerCommonPart: React.FC<PickerCommonPartProps> = ({
           <LinearProgress sx={{ height: 4 }} />
         </Box>
       )}
-      {msg && (
+      {error instanceof ConnectException && (
         <Typography color="error" sx={{ zIndex: 1 }}>
-          {msg}
+          {t('room.failedToConnect', { name: error.target })}
         </Typography>
       )}
     </Box>

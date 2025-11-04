@@ -46,7 +46,8 @@
     "name": "Name",
     "nameNotSet": "Not set",
     "connectionDialogText": "Do you want to connect to '{{name}}'?",
-    "disconnectDialogText": "Disconnect?"
+    "disconnectDialogText": "Disconnect?",
+    "failedToConnect": "Couldn't connect to '{{name}}'."
   },
   "settings": {
     "language": "Language",
