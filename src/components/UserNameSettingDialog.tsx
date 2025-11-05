@@ -9,7 +9,7 @@ import {
   Box,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../context/useAppContext';
 import { formatUserName } from 'LinkFiveDots-shared';
 
 export type UserNameSettingDialogProps = {

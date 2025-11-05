@@ -59,7 +59,9 @@ export const InfoPage: React.FC = () => {
                 text: shareText,
                 url: shareUrl,
               });
-            } catch {}
+            } catch {
+              /* empty */
+            }
           } else {
             await navigator.clipboard.writeText(shareUrl);
             alert(t('info.copied'));

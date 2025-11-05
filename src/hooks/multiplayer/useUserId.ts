@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { auth } from '../../firebase';
+import { getAuthOrThrow } from '../../firebase';
 import { signInAnonymously, onAuthStateChanged, User } from 'firebase/auth';
 
 /**
@@ -10,13 +10,18 @@ export function useUserId(): string | null {
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      if (user) {
-        setUserId(user.uid);
-      } else {
-        signInAnonymously(auth).catch((err) => console.error(err));
-      }
-    });
+    const unsubscribe = onAuthStateChanged(
+      getAuthOrThrow(),
+      (user: User | null) => {
+        if (user) {
+          setUserId(user.uid);
+        } else {
+          signInAnonymously(getAuthOrThrow()).catch((err) =>
+            console.error(err),
+          );
+        }
+      },
+    );
     return () => unsubscribe();
   }, []);
 

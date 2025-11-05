@@ -7,7 +7,7 @@ import {
   undoBotGame,
 } from 'LinkFiveDots-shared';
 import { useCallback, useEffect, useState } from 'react';
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '../../context/useAppContext';
 import { useTranslatedStrings } from '../../services/stringProvider';
 import { useRoom } from './userRoom';
 
@@ -25,22 +25,22 @@ export const useRooms = () => {
         mapToBotGameViewState(dotsStyleType, userName, stringProvider, room),
       );
     }
-  }, [room, dotsStyleType]);
+  }, [room, dotsStyleType, setRoom, userName, stringProvider]);
 
   const newGame = useCallback(async () => {
     await createBotGame(setRoom);
-  }, []);
+  }, [setRoom]);
 
   const addDot = useCallback(
     async (p: Point) => {
       await addDotBotGame(room, p, setRoom);
     },
-    [room],
+    [room, setRoom],
   );
 
   const undo = useCallback(async () => {
     await undoBotGame(room, setRoom);
-  }, [room]);
+  }, [room, setRoom]);
 
   return { gameViewState: viewState, newGame, addDot, undo };
 };

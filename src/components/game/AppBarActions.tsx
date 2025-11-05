@@ -15,11 +15,10 @@ export const AppBarActions: React.FC<AppBarActionsProps> = ({
   onNew,
   onUndo,
 }) => {
-  if (!newOption.isVisible && !undoOption.isVisible) return null;
-
   const { t } = useTranslation();
-
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  if (!newOption.isVisible && !undoOption.isVisible) return null;
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -46,9 +45,9 @@ export const AppBarActions: React.FC<AppBarActionsProps> = ({
         color="inherit"
         onClick={handleClick}
         aria-label="more"
-        aria-controls={Boolean(anchorEl) ? 'game-menu' : undefined}
+        aria-controls={anchorEl ? 'game-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={Boolean(anchorEl) ? 'true' : undefined}
+        aria-expanded={anchorEl ? 'true' : undefined}
       >
         <MoreVertIcon />
       </IconButton>

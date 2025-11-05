@@ -1,4 +1,4 @@
-import { database } from '../firebase';
+import { getDb } from '../firebase';
 import {
   ref,
   set,
@@ -30,12 +30,12 @@ import {
 const ROOMS_KEY = 'rooms_debug';
 
 const onDbSet = async (key: string, value: any): Promise<void> => {
-  const roomRef = ref(database, `${ROOMS_KEY}/${key}`);
+  const roomRef = ref(getDb(), `${ROOMS_KEY}/${key}`);
   await set(roomRef, value);
 };
 
 const onDbUpdate = async (key: string, patch: any): Promise<void> => {
-  const roomRef = ref(database, `${ROOMS_KEY}/${key}`);
+  const roomRef = ref(getDb(), `${ROOMS_KEY}/${key}`);
   await update(roomRef, patch);
 };
 
@@ -61,7 +61,7 @@ const updateRoomState = async (
   key: string,
   state: RoomState,
 ): Promise<void> => {
-  const roomRef = ref(database, `${ROOMS_KEY}/${key}/state`);
+  const roomRef = ref(getDb(), `${ROOMS_KEY}/${key}/state`);
   await set(roomRef, state.ordinal);
 };
 
@@ -99,7 +99,7 @@ export const subscribeToInvitations = (
   onRoomsUpdate: (invitations: FoundRemoteRoom[]) => void,
   onSaveKey: (key: string) => void,
 ): Unsubscribe => {
-  const roomsRef = ref(database, ROOMS_KEY);
+  const roomsRef = ref(getDb(), ROOMS_KEY);
   const q = query(
     roomsRef,
     orderByChild('state'),
@@ -129,14 +129,14 @@ export const subscribeToInvitations = (
 };
 
 export const unsubscribeFromRooms = (): void => {
-  off(ref(database, ROOMS_KEY));
+  off(ref(getDb(), ROOMS_KEY));
 };
 
 export const subscribeToRoom = (
   key: string,
   onUpdate: (room: OnlineRoom) => void,
 ): Unsubscribe => {
-  const roomRef = ref(database, ROOMS_KEY + '/' + key);
+  const roomRef = ref(getDb(), ROOMS_KEY + '/' + key);
   return onValue(roomRef, (snapshot: DataSnapshot) => {
     onUpdate(toOnlineRoom(snapshot.key, snapshot.val()));
   });

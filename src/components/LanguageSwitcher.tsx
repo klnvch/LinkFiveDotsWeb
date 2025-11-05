@@ -1,11 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Menu, MenuItem, Typography } from '@mui/material';
-
-export const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'pl', name: 'Polski' },
-];
+import { languages } from '../constants/languages';
 
 export type LanguageSwitcherProps = {
   anchorEl: HTMLElement | null;

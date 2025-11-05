@@ -26,7 +26,7 @@ import {
 } from 'LinkFiveDots-shared';
 import { useRoomKey } from './useRoomKey';
 import { t } from 'i18next';
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '../../context/useAppContext';
 
 export const useRooms = (): RoomState & RoomActions => {
   const [key, setKey, clearKey] = useRoomKey();
@@ -81,7 +81,7 @@ export const useRooms = (): RoomState & RoomActions => {
     } else {
       setGameViewState(null);
     }
-  }, [onlineRoom]);
+  }, [dotsStyleType, onlineRoom]);
 
   useEffect(() => {
     switch (true) {
@@ -99,7 +99,7 @@ export const useRooms = (): RoomState & RoomActions => {
         setState(state.disconnected());
         break;
     }
-  }, [roomState]);
+  }, [clearKey, roomState, state]);
 
   useEffect(() => {
     user && setActionTitle(getRoomActionTitle(user, state, room));
@@ -114,7 +114,7 @@ export const useRooms = (): RoomState & RoomActions => {
       setState(state.reset());
       console.error(err);
     }
-  }, [user]);
+  }, [setKey, state, user]);
 
   const deleteRoom = useCallback(async () => {
     if (!key) return;
@@ -124,7 +124,7 @@ export const useRooms = (): RoomState & RoomActions => {
     } catch (err) {
       console.error(err);
     }
-  }, [key]);
+  }, [key, state]);
 
   const cancelScan = useCallback(() => {
     setState(state.reset());
@@ -178,7 +178,7 @@ export const useRooms = (): RoomState & RoomActions => {
       },
       setKey,
     );
-  }, [user, state, t, setKey]);
+  }, [user, state, setKey]);
 
   // Unsubscribe on unmount
   useEffect(() => {

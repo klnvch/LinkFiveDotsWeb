@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { registerSW } from 'virtual:pwa-register';
 
-const Main = () => {
+export const Main = () => {
   const theme = useMemo(
     () =>
       createTheme({

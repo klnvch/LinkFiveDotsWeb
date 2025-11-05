@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../context/useAppContext';
 import { useTheme } from '@mui/material';
 import RedDotLight from '../../images/dot/red_dot_light.svg';
 import RedDotDark from '../../images/dot/red_dot_dark.svg';

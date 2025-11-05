@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { AppBarTitle } from '../components/AppBarTitle';
 import UserNameSettingDialog from '../components/UserNameSettingDialog';
 import { ClearDataDialog } from '../components/ClearDataDialog';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../context/useAppContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { DotsStyleType } from 'LinkFiveDots-shared';

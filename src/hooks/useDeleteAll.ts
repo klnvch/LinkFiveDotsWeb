@@ -1,4 +1,4 @@
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../context/useAppContext';
 import { useColorScheme } from '@mui/material/styles';
 import { clearBotGame } from './singleplayer/userRoom';
 import { clearOnlineGameKey } from './multiplayer/useRoomKey';

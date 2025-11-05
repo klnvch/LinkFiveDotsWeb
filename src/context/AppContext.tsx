@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-} from 'react';
+import { useEffect, useMemo, useReducer, useCallback } from 'react';
 import { readUserName, saveUserName } from '../services/userNameSetting';
 import { useUserId } from '../hooks/multiplayer/useUserId';
 import { DotsStyleType } from 'LinkFiveDots-shared';
@@ -12,12 +6,11 @@ import {
   readDotsStyleType,
   saveDotsStyleType,
 } from '../services/dotsStyleSetting';
-
-type AppState = {
-  userName: string | null;
-  userId: string | null;
-  dotsStyleType: DotsStyleType;
-};
+import {
+  AppContext,
+  type AppContextValue,
+  type AppState,
+} from './AppContextBase';
 
 type AppAction =
   | { type: 'setUserName'; payload: string | null }
@@ -47,12 +40,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
   }
 }
 
-type AppContextValue = AppState & {
-  setUserName: (name: string | null) => void;
-  setDotsStyleType: (type: DotsStyleType | null) => void;
-};
-
-const AppContext = createContext<AppContextValue | undefined>(undefined);
+// AppContextValue comes from AppContextBase
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -65,7 +53,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (stored !== state.userName) {
       dispatch({ type: 'setUserName', payload: stored });
     }
-  }, []);
+  }, [state.userName]);
 
   // Initialize dotsStyleType from storage once
   useEffect(() => {
@@ -73,7 +61,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (stored !== state.dotsStyleType) {
       dispatch({ type: 'setDotsStyleType', payload: stored });
     }
-  }, []);
+  }, [state.dotsStyleType]);
 
   // Sync firebaseUserId from auth
   useEffect(() => {
@@ -82,16 +70,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [userId, state.userId]);
 
-  const setUserName = (name: string | null) => {
+  const setUserName = useCallback((name: string | null) => {
     const trimmed = name?.trim() || null;
     saveUserName(trimmed);
     dispatch({ type: 'setUserName', payload: trimmed });
-  };
+  }, []);
 
-  const setDotsStyleType = (type: DotsStyleType | null) => {
+  const setDotsStyleType = useCallback((type: DotsStyleType | null) => {
     saveDotsStyleType(type);
     dispatch({ type: 'setDotsStyleType', payload: type });
-  };
+  }, []);
 
   const value: AppContextValue = useMemo(
     () => ({ ...state, setUserName, setDotsStyleType }),
@@ -99,12 +87,4 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-}
-
-export function useAppContext(): AppContextValue {
-  const ctx = useContext(AppContext);
-  if (!ctx) {
-    throw new Error('useAppContext must be used within AppProvider');
-  }
-  return ctx;
 }

@@ -60,3 +60,17 @@ if (isFirebaseConfigured) {
 }
 
 export { app, database, auth };
+
+export const getDb = (): Database => {
+  if (!database) {
+    throw new Error('Firebase Realtime Database is not configured.');
+  }
+  return database;
+};
+
+export const getAuthOrThrow = (): Auth => {
+  if (!auth) {
+    throw new Error('Firebase Auth is not configured.');
+  }
+  return auth;
+};
