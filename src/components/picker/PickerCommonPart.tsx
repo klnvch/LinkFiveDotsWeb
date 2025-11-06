@@ -1,4 +1,4 @@
-import { ConnectException, PickerCommonViewState } from 'LinkFiveDots-shared';
+import { ConnectException, PickerCommonViewState } from '@klnvch/link-five-dots-shared';
 import { Box, LinearProgress, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

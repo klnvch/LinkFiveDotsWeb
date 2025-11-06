@@ -25,7 +25,7 @@ import {
   toOnlineRoom,
   INetworkRoom,
   NetworkUser,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 
 const ROOMS_KEY = 'rooms_debug';
 

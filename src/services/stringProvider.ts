@@ -1,4 +1,4 @@
-import { StringProvider } from 'LinkFiveDots-shared';
+import { StringProvider } from '@klnvch/link-five-dots-shared';
 import { useTranslation } from 'react-i18next';
 
 export const useTranslatedStrings = (): StringProvider => {

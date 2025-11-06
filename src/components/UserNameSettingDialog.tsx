@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useAppContext } from '../context/useAppContext';
-import { formatUserName } from 'LinkFiveDots-shared';
+import { formatUserName } from '@klnvch/link-five-dots-shared';
 
 export type UserNameSettingDialogProps = {
   open: boolean;

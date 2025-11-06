@@ -1,4 +1,4 @@
-import { DotsStyleType } from 'LinkFiveDots-shared';
+import { DotsStyleType } from '@klnvch/link-five-dots-shared';
 
 const DOTS_STYLE_TYPE_KEY = 'dotsStyleType';
 

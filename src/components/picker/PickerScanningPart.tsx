@@ -2,7 +2,7 @@ import {
   FoundRemoteRoom,
   PickerItemViewState,
   PickerScanningViewState,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 import {
   Button,
   Typography,

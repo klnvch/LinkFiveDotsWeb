@@ -5,7 +5,7 @@ import {
   FoundRemoteRoom,
   NetworkGameAction,
   PickerViewState,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 import { PickerCommonPart } from '../../components/picker/PickerCommonPart';
 import { PickerCreationPart } from '../../components/picker/PickerCreationPart';
 import { PickerScanningPart } from '../../components/picker/PickerScanningPart';

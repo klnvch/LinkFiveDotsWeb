@@ -4,7 +4,7 @@ import {
   NetworkGameAction,
   PickerViewState,
   Point,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 
 export interface RoomState {
   pickerViewState: PickerViewState;

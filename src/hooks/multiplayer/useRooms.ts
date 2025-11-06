@@ -23,7 +23,7 @@ import {
   Point,
   toNetworkRoomState,
   toPickerViewState,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 import { useRoomKey } from './useRoomKey';
 import { t } from 'i18next';
 import { useAppContext } from '../../context/useAppContext';

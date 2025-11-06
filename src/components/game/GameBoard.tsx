@@ -14,7 +14,7 @@ import {
   Paper,
   PaperPosition,
   Point,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 
 const colorRed = 0xffff0000;
 const colorBlue = 0xff0000ff;

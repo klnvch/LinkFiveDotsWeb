@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameViewState } from 'LinkFiveDots-shared';
+import { GameViewState } from '@klnvch/link-five-dots-shared';
 import { AppBarTitle } from './AppBarTitle';
 
 interface SinglePlayerAppBarTitleProps {

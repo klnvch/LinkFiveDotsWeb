@@ -4,7 +4,7 @@ import { GameInfo } from '../components/game/GameInfo';
 import { GameBoard } from '../components/game/GameBoard';
 import { AppBarActions } from '../components/game/AppBarActions';
 import { GameNextAction } from '../components/game/GameNextAction';
-import { GameViewState, Point } from 'LinkFiveDots-shared';
+import { GameViewState, Point } from '@klnvch/link-five-dots-shared';
 import { Page } from '../components/layout/Page';
 import { Content } from '../components/layout/Content';
 import { BackButton } from '../components/BackButton';

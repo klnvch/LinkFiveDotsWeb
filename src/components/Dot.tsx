@@ -9,7 +9,7 @@ import RedCrossLight from '../../images/dot/red_cross_light.svg';
 import RedCrossDark from '../../images/dot/red_cross_dark.svg';
 import BlueCircleLight from '../../images/dot/blue_circle_light.svg';
 import BlueCircleDark from '../../images/dot/blue_circle_dark.svg';
-import { DotsStyleType } from 'LinkFiveDots-shared';
+import { DotsStyleType } from '@klnvch/link-five-dots-shared';
 
 interface DotProps {
   id: 1 | 2;

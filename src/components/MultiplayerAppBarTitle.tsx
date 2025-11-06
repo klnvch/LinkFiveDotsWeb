@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBarTitle } from './AppBarTitle';
-import { NetworkGameAction } from 'LinkFiveDots-shared';
+import { NetworkGameAction } from '@klnvch/link-five-dots-shared';
 
 interface MultiplayerAppBarTitleProps {
   title: NetworkGameAction;

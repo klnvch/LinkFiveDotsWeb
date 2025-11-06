@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { DotsStyleType } from 'LinkFiveDots-shared';
+import { DotsStyleType } from '@klnvch/link-five-dots-shared';
 
 export type AppState = {
   userName: string | null;

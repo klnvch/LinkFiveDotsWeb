@@ -5,7 +5,7 @@ import {
   formatDuration,
   GameInfoUserViewState,
   GameInfoViewState,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 import { Dot } from '../Dot';
 import { useColors } from '../../hooks/useColors';
 

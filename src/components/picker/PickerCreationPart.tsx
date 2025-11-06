@@ -1,4 +1,4 @@
-import { PickerCreationViewState } from 'LinkFiveDots-shared';
+import { PickerCreationViewState } from '@klnvch/link-five-dots-shared';
 import { Button, Typography, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 

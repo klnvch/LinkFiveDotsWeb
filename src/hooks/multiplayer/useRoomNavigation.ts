@@ -1,4 +1,4 @@
-import { PickerScreen, PickerScreenGame } from 'LinkFiveDots-shared';
+import { PickerScreen, PickerScreenGame } from '@klnvch/link-five-dots-shared';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 

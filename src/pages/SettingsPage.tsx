@@ -20,7 +20,7 @@ import { ClearDataDialog } from '../components/ClearDataDialog';
 import { useAppContext } from '../context/useAppContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
-import { DotsStyleType } from 'LinkFiveDots-shared';
+import { DotsStyleType } from '@klnvch/link-five-dots-shared';
 import { Page } from '../components/layout/Page';
 import { Content } from '../components/layout/Content';
 import { BackButton } from '../components/BackButton';

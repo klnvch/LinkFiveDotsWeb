@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { MenuViewState } from 'LinkFiveDots-shared';
+import { MenuViewState } from '@klnvch/link-five-dots-shared';
 import { useTranslation } from 'react-i18next';
 
 interface AppBarActionsProps {

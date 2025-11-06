@@ -5,7 +5,7 @@ import { PickerPage } from './PickerPage';
 import { GamePage } from '../GamePage';
 import { DisconnectDialog } from '../../components/game/DisconnectDialog';
 import { useRoomNavigation } from '../../hooks/multiplayer/useRoomNavigation';
-import { FoundRemoteRoom, PickerScreenGame, Point } from 'LinkFiveDots-shared';
+import { FoundRemoteRoom, PickerScreenGame, Point } from '@klnvch/link-five-dots-shared';
 import { MultiplayerAppBarTitle } from '../../components/MultiplayerAppBarTitle';
 import {
   isFirebaseConfigured,

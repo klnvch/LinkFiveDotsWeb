@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import UndoIcon from '@mui/icons-material/Undo';
-import { MenuViewState } from 'LinkFiveDots-shared';
+import { MenuViewState } from '@klnvch/link-five-dots-shared';
 import { useTranslation } from 'react-i18next';
 
 interface ActionButtonProps {

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useCallback } from 'react';
 import { readUserName, saveUserName } from '../services/userNameSetting';
 import { useUserId } from '../hooks/multiplayer/useUserId';
-import { DotsStyleType } from 'LinkFiveDots-shared';
+import { DotsStyleType } from '@klnvch/link-five-dots-shared';
 import {
   readDotsStyleType,
   saveDotsStyleType,

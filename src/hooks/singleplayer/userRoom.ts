@@ -1,4 +1,4 @@
-import { IRoom, jsonToRoom, roomToJson } from 'LinkFiveDots-shared';
+import { IRoom, jsonToRoom, roomToJson } from '@klnvch/link-five-dots-shared';
 import { useState, useEffect } from 'react';
 
 const LOCAL_STORAGE_KEY = 'botGame';

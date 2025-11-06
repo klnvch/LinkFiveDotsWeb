@@ -5,7 +5,7 @@ import {
   mapToBotGameViewState,
   Point,
   undoBotGame,
-} from 'LinkFiveDots-shared';
+} from '@klnvch/link-five-dots-shared';
 import { useCallback, useEffect, useState } from 'react';
 import { useAppContext } from '../../context/useAppContext';
 import { useTranslatedStrings } from '../../services/stringProvider';
