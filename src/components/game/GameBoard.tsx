@@ -6,8 +6,6 @@ import React, {
   useState,
 } from 'react';
 import { Box } from '@mui/material';
-import backgroundImg from '../../../images/background.png';
-import arrowsImg from '../../../images/arrows.png';
 import {
   GameBitmap,
   GameBoardViewState,
@@ -140,7 +138,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         ref={containerRef}
       >
         <img
-          src={backgroundImg}
+          src="/background.png"
           alt=""
           draggable="false"
           aria-hidden="true"
@@ -163,7 +161,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         ))}
         {lastDotOffset && (
           <img
-            src={arrowsImg}
+            src="/arrows.png"
             alt=""
             aria-hidden="true"
             draggable="false"

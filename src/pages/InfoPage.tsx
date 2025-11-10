@@ -16,9 +16,8 @@ import { Page } from '../components/layout/Page';
 import { Content } from '../components/layout/Content';
 import { AppBarTitle } from '../components/AppBarTitle';
 import { BackButton } from '../components/BackButton';
-import appIcon from '../../images/ic_launcher_big.png';
 
-const APP_ICON = appIcon;
+const APP_ICON = '/ic_launcher_big.png';
 const GITHUB_URL = 'https://github.com/klnvch/LinkFiveDots';
 
 export const InfoPage: React.FC = () => {

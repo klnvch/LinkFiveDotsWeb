@@ -1,7 +1,5 @@
 import { Box, BoxProps, styled } from '@mui/material';
 import { FC } from 'react';
-import paperDark from '../../../images/paper_dark.png';
-import paperLight from '../../../images/paper_light.png';
 
 const StyledContent = styled(Box)<BoxProps>(
   ({
@@ -9,7 +7,9 @@ const StyledContent = styled(Box)<BoxProps>(
       palette: { mode },
     },
   }) => ({
-    backgroundImage: `url(${mode === 'dark' ? paperDark : paperLight})`,
+    backgroundImage: `url(${
+      mode === 'dark' ? '/paper_dark.png' : '/paper_light.png'
+    })`,
     backgroundRepeat: 'repeat',
   }),
 );
