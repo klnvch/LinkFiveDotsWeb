@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 const LOCAL_STORAGE_KEY = 'roomKey';
 
@@ -27,8 +27,8 @@ export function useRoomKey(): [
 
   useEffect(() => saveOnlineGameKey(key), [key]);
 
-  const setKey = (newKey: string) => setKeyState(newKey);
-  const clearKey = () => setKeyState(null);
+  const setKey = useCallback((newKey: string) => setKeyState(newKey), []);
+  const clearKey = useCallback(() => setKeyState(null), []);
 
   return [key, setKey, clearKey];
 }

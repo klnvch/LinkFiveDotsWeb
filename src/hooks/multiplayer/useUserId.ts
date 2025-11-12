@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAuthOrThrow } from '../../firebase';
+import { getAuthOrNull } from '../../firebase';
 import { signInAnonymously, onAuthStateChanged, User } from 'firebase/auth';
 
 /**
@@ -10,18 +10,20 @@ export function useUserId(): string | null {
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      getAuthOrThrow(),
-      (user: User | null) => {
-        if (user) {
-          setUserId(user.uid);
-        } else {
-          signInAnonymously(getAuthOrThrow()).catch((err) =>
-            console.error(err),
-          );
-        }
-      },
-    );
+    const auth = getAuthOrNull();
+    if (!auth) {
+      console.warn('Firebase authentication is not configured.');
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        signInAnonymously(auth).catch((err) => console.error(err));
+      }
+    });
+
     return () => unsubscribe();
   }, []);
 

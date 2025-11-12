@@ -54,6 +54,7 @@ export const useRooms = (): RoomState & RoomActions => {
   }, [userId, userName]);
 
   useEffect(() => {
+    console.log('key', key);
     // cleanup previous subscription
     roomRef.current && roomRef.current();
     roomRef.current = null;
@@ -71,6 +72,7 @@ export const useRooms = (): RoomState & RoomActions => {
   }, [key]);
 
   useEffect(() => {
+    console.log('onlineRoom', onlineRoom?.toString());
     if (onlineRoom) {
       const room = getRoomIfAny(onlineRoom);
       if (room) {
@@ -84,22 +86,23 @@ export const useRooms = (): RoomState & RoomActions => {
   }, [dotsStyleType, onlineRoom]);
 
   useEffect(() => {
+    console.log('roomState', roomState?.toString());
     switch (true) {
       case roomState instanceof NetworkRoomStateCreated:
-        setState(state.created(roomState.descriptor));
+        setState((state) => state.created(roomState.descriptor));
         break;
       case roomState === NetworkRoomStateDeleted.getInstance():
         clearKey();
-        setState(state.reset());
+        setState((state) => state.reset());
         break;
       case roomState instanceof NetworkRoomStateStarted:
-        setState(state.connected(roomState.descriptor));
+        setState((state) => state.connected(roomState.descriptor));
         break;
       case roomState === NetworkRoomStateFinished.getInstance():
-        setState(state.disconnected());
+        setState((state) => state.disconnected());
         break;
     }
-  }, [clearKey, roomState, state]);
+  }, [clearKey, roomState]);
 
   useEffect(() => {
     user && setActionTitle(getRoomActionTitle(user, state, room));

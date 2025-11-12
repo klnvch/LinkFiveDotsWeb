@@ -68,9 +68,4 @@ export const getDb = (): Database => {
   return database;
 };
 
-export const getAuthOrThrow = (): Auth => {
-  if (!auth) {
-    throw new Error('Firebase Auth is not configured.');
-  }
-  return auth;
-};
+export const getAuthOrNull = (): Auth | undefined => auth;
