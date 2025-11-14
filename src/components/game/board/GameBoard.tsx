@@ -1,0 +1,269 @@
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { Box } from '@mui/material';
+import {
+  GameBoardViewState,
+  Paper,
+  Point,
+} from '@klnvch/link-five-dots-shared';
+import DotCanvas from './DotCanvas';
+
+const colorRed = 0xffff0000;
+const colorBlue = 0xff0000ff;
+
+interface GameBoardProps {
+  uiState: GameBoardViewState;
+  onMoveDone: (p: Point) => void;
+}
+export const GameBoard: React.FC<GameBoardProps> = ({
+  uiState: { dots, lastDot, winningLine, dotsStyleType },
+  onMoveDone,
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
+  const hasDraggedRef = useRef(false);
+  const dragStartRef = useRef({ x: 0, y: 0 });
+  const scrollStartRef = useRef({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Board is fixed at 600px, so we don't need to track size changes
+  const boardSize = 600;
+
+  const paper = useMemo(
+    () => new Paper(dotsStyleType, boardSize, colorRed, colorBlue),
+    [dotsStyleType, boardSize],
+  );
+  const lastDotOffset = useMemo(
+    () => (lastDot ? paper.toArrowsPaperPosition(lastDot) : null),
+    [paper, lastDot],
+  );
+  const line = useMemo(
+    () =>
+      winningLine
+        ? paper.toLineOnPaper(
+            winningLine,
+            dots.length % 2 === 1 ? colorRed : colorBlue,
+          )
+        : null,
+    [paper, winningLine, dots],
+  );
+  const getDotBitmap = useCallback(
+    (idx: number) => (idx % 2 === 0 ? paper.user1Dot : paper.user2Dot),
+    [paper],
+  );
+
+  const handleImageClick = useCallback(
+    (e: React.MouseEvent<HTMLImageElement>) => {
+      // Don't trigger click if we were dragging
+      if (hasDraggedRef.current) {
+        hasDraggedRef.current = false;
+        return;
+      }
+      const rect = e.currentTarget.getBoundingClientRect();
+      onMoveDone(
+        paper.toBoardPosition(e.clientX - rect.left, e.clientY - rect.top),
+      );
+    },
+    [paper, onMoveDone],
+  );
+
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+    if (!container) return;
+    setIsDragging(true);
+    hasDraggedRef.current = false;
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+    scrollStartRef.current = {
+      x: container.scrollLeft,
+      y: container.scrollTop,
+    };
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!isDragging) return;
+      const container = containerRef.current;
+      if (!container) return;
+      const deltaX = dragStartRef.current.x - e.clientX;
+      const deltaY = dragStartRef.current.y - e.clientY;
+      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+        hasDraggedRef.current = true;
+      }
+      container.scrollLeft = scrollStartRef.current.x + deltaX;
+      container.scrollTop = scrollStartRef.current.y + deltaY;
+    },
+    [isDragging],
+  );
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      if (e.touches.length !== 1) return;
+      const container = containerRef.current;
+      if (!container) return;
+      setIsDragging(true);
+      hasDraggedRef.current = false;
+      dragStartRef.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      };
+      scrollStartRef.current = {
+        x: container.scrollLeft,
+        y: container.scrollTop,
+      };
+    },
+    [],
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      e.preventDefault();
+      const container = containerRef.current;
+      if (!container) return;
+      const deltaX = dragStartRef.current.x - e.touches[0].clientX;
+      const deltaY = dragStartRef.current.y - e.touches[0].clientY;
+      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+        hasDraggedRef.current = true;
+      }
+      container.scrollLeft = scrollStartRef.current.x + deltaX;
+      container.scrollTop = scrollStartRef.current.y + deltaY;
+    },
+    [isDragging],
+  );
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      const wasDragging = isDragging;
+      setIsDragging(false);
+
+      // If it was a tap (no drag) and we touched the image, trigger click
+      if (
+        wasDragging &&
+        !hasDraggedRef.current &&
+        e.target instanceof HTMLImageElement
+      ) {
+        const rect = e.target.getBoundingClientRect();
+        const touch = e.changedTouches[0];
+        if (touch) {
+          onMoveDone(
+            paper.toBoardPosition(
+              touch.clientX - rect.left,
+              touch.clientY - rect.top,
+            ),
+          );
+        }
+      }
+    },
+    [isDragging, paper, onMoveDone],
+  );
+
+  useEffect(() => {
+    if (!isDragging) return;
+    const handleGlobalMouseMove = (e: globalThis.MouseEvent) => {
+      const container = containerRef.current;
+      if (!container) return;
+      const deltaX = dragStartRef.current.x - e.clientX;
+      const deltaY = dragStartRef.current.y - e.clientY;
+      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+        hasDraggedRef.current = true;
+      }
+      container.scrollLeft = scrollStartRef.current.x + deltaX;
+      container.scrollTop = scrollStartRef.current.y + deltaY;
+    };
+    const handleGlobalMouseUp = () => setIsDragging(false);
+
+    window.addEventListener('mousemove', handleGlobalMouseMove);
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+      window.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [isDragging]);
+
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'auto',
+        cursor: isDragging ? 'grabbing' : 'grab',
+      }}
+      ref={containerRef}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <Box
+        sx={{
+          position: 'relative',
+          width: '600px',
+          height: '600px',
+          minWidth: '600px',
+          minHeight: '600px',
+          flexShrink: 0,
+        }}
+        ref={boardRef}
+      >
+        <img
+          src="/background.png"
+          alt=""
+          draggable="false"
+          aria-hidden="true"
+          decoding="async"
+          loading="eager"
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'block',
+            userSelect: 'none',
+            pointerEvents: 'auto',
+          }}
+          onClick={handleImageClick}
+        />
+        {dots.map((dot, idx) => (
+          <DotCanvas
+            key={idx}
+            bitmap={getDotBitmap(idx)}
+            position={paper.toDotPaperPosition(dot)}
+          />
+        ))}
+        {lastDotOffset && (
+          <img
+            src="/arrows.png"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            decoding="async"
+            loading="eager"
+            style={{
+              userSelect: 'none',
+              position: 'absolute',
+              left: lastDotOffset.x,
+              top: lastDotOffset.y,
+              pointerEvents: 'none',
+            }}
+          />
+        )}
+        {line?.linePositions?.map((p, idx) => (
+          <DotCanvas key={idx} bitmap={line.lineBitmap} position={p} />
+        ))}
+      </Box>
+    </Box>
+  );
+};

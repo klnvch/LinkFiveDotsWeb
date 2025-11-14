@@ -23,7 +23,14 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --omit=dev
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install build tooling
+        run: |
+          VITE_VERSION=$(node -p "require('./package.json').devDependencies['vite']")
+          PWA_VERSION=$(node -p "require('./package.json').devDependencies['vite-plugin-pwa']")
+          npm install --no-save "vite@$VITE_VERSION" "vite-plugin-pwa@$PWA_VERSION"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build project

@@ -65,6 +65,11 @@
     "share": "Share",
     "copied": "Link copied to clipboard"
   },
+  "serviceUnavailable": {
+    "title": "Multiplayer unavailable",
+    "description": "Multiplayer mode is temporarily unavailable. Please try again later.",
+    "missingEnv": "Missing environment variables:"
+  },
   "help": {
     "title": "Help",
     "mainTitle": "How to Play Link Five Dots",

@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useRooms } from '../../hooks/multiplayer/useRooms';
 import { PickerPage } from './PickerPage';
 import { GamePage } from '../GamePage';
 import { DisconnectDialog } from '../../components/game/DisconnectDialog';
 import { useRoomNavigation } from '../../hooks/multiplayer/useRoomNavigation';
-import { FoundRemoteRoom, PickerScreenGame, Point } from '@klnvch/link-five-dots-shared';
+import {
+  FoundRemoteRoom,
+  PickerScreenGame,
+  Point,
+} from '@klnvch/link-five-dots-shared';
 import { MultiplayerAppBarTitle } from '../../components/MultiplayerAppBarTitle';
 import {
   isFirebaseConfigured,
   getMissingFirebaseEnvKeys,
 } from '../../firebase';
 import { ServiceUnavailable } from '../../components/ServiceUnavailable';
+
+const pickerGameScreen = PickerScreenGame.getInstance();
 
 const MultiplayerPage: React.FC = () => {
   const {
@@ -30,44 +36,41 @@ const MultiplayerPage: React.FC = () => {
   const [disconnectOpen, setDisconnectOpen] = useState(false);
   useRoomNavigation(pickerViewState.screen);
 
-  if (!isFirebaseConfigured) {
-    return <ServiceUnavailable missingKeys={getMissingFirebaseEnvKeys()} />;
-  }
+  const handleCreateRoom = useCallback(() => createRoom(), [createRoom]);
 
-  const handleCreateRoom = async () => {
-    await createRoom();
-  };
+  const handleRoomClick = useCallback(
+    (invitation: FoundRemoteRoom) => connectRoom(invitation),
+    [connectRoom],
+  );
 
-  const handleRoomClick = async (invitation: FoundRemoteRoom) => {
-    await connectRoom(invitation);
-  };
+  const handleAddDot = useCallback((p: Point) => addDot(p), [addDot]);
 
-  const handleAddDot = async (p: Point) => {
-    await addDot(p);
-  };
+  const handleDisconnectConfirm = useCallback(async () => {
+    await exitGame();
+    navigate('/multiplayer', { replace: true });
+    setDisconnectOpen(false);
+  }, [exitGame, navigate]);
 
-  const handleCloseGame = async () => {
-    if (pickerViewState.screen == PickerScreenGame.getInstance()) {
+  const isGameScreen = pickerViewState.screen === pickerGameScreen;
+
+  const handleCloseGame = useCallback(async () => {
+    if (isGameScreen) {
       setDisconnectOpen(true);
     } else {
       await handleDisconnectConfirm();
     }
-  };
+  }, [handleDisconnectConfirm, isGameScreen]);
 
-  const handleDisconnectCancel = () => {
-    setDisconnectOpen(false);
-  };
+  const handleDisconnectCancel = useCallback(
+    () => setDisconnectOpen(false),
+    [],
+  );
 
-  const handleDisconnectConfirm = async () => {
-    await exitGame();
-    navigate('/multiplayer', { replace: true });
-    setDisconnectOpen(false);
-  };
+  const handleUndoMove = useCallback(() => {}, []);
 
-  const handleUndoMove = async () => {
-    // TODO: Implement undo move functionality
-    console.log('Undo move requested');
-  };
+  if (!isFirebaseConfigured) {
+    return <ServiceUnavailable missingKeys={getMissingFirebaseEnvKeys()} />;
+  }
 
   return (
     <>

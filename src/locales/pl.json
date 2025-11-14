@@ -65,6 +65,11 @@
     "share": "Udostępnij",
     "copied": "Skopiowano link do schowka"
   },
+  "serviceUnavailable": {
+    "title": "Tryb wieloosobowy niedostępny",
+    "description": "Tryb wieloosobowy jest tymczasowo niedostępny. Spróbuj ponownie później.",
+    "missingEnv": "Brakujące zmienne środowiskowe:"
+  },
   "help": {
     "title": "Pomoc",
     "mainTitle": "Jak grać w Połącz pięć kropek",

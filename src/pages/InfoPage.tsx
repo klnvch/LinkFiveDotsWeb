@@ -18,7 +18,7 @@ import { AppBarTitle } from '../components/AppBarTitle';
 import { BackButton } from '../components/BackButton';
 
 const APP_ICON = '/ic_launcher_big.png';
-const GITHUB_URL = 'https://github.com/klnvch/LinkFiveDots';
+const GITHUB_URL = 'https://github.com/klnvch/LinkFiveDotsWeb';
 
 export const InfoPage: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ export const InfoPage: React.FC = () => {
         label: t('info.share'),
         onClick: async () => {
           const shareText = 'Link Five Dots';
-          const shareUrl = GITHUB_URL;
+          const shareUrl = window.location.href;
           if (navigator.share) {
             try {
               await navigator.share({

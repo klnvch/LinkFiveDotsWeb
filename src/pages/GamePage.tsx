@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, AppBar, Toolbar } from '@mui/material';
 import { GameInfo } from '../components/game/GameInfo';
-import { GameBoard } from '../components/game/GameBoard';
+import { GameBoard } from '../components/game/board/GameBoard';
 import { AppBarActions } from '../components/game/AppBarActions';
 import { GameNextAction } from '../components/game/GameNextAction';
 import { GameViewState, Point } from '@klnvch/link-five-dots-shared';
