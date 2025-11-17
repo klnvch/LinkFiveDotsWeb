@@ -1,13 +1,15 @@
 import { GameBitmap, PaperPosition } from '@klnvch/link-five-dots-shared';
 import { useEffect, useRef } from 'react';
 
+interface DotCanvasProps {
+  position: PaperPosition;
+  bitmap: GameBitmap;
+}
+
 export default function DotCanvas({
   position: { x, y },
   bitmap: { size, buffer },
-}: {
-  position: PaperPosition;
-  bitmap: GameBitmap;
-}) {
+}: DotCanvasProps) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     const canvas = ref.current;

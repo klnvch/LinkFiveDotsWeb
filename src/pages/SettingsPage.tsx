@@ -20,21 +20,12 @@ import { ClearDataDialog } from '../components/ClearDataDialog';
 import { useAppContext } from '../context/useAppContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
-import { DotsStyleType } from '@klnvch/link-five-dots-shared';
+import { getNextDotsStyleType } from '@klnvch/link-five-dots-shared';
 import { Page } from '../components/layout/Page';
 import { Content } from '../components/layout/Content';
 import { BackButton } from '../components/BackButton';
 import { Dot } from '../components/Dot';
 import { useDeleteAll } from '../hooks/useDeleteAll';
-
-const switchDotStyle = (style: DotsStyleType): DotsStyleType => {
-  switch (style) {
-    case DotsStyleType.ORIGINAL:
-      return DotsStyleType.CROSS_AND_RING;
-    default:
-      return DotsStyleType.ORIGINAL;
-  }
-};
 
 const switchNightMode = (
   mode: 'light' | 'dark' | 'system' | undefined,
@@ -80,7 +71,7 @@ const SettingsPage: React.FC = () => {
   );
 
   const changeDotStyle = useCallback(
-    () => setDotsStyleType(switchDotStyle(dotsStyleType)),
+    () => setDotsStyleType(getNextDotsStyleType(dotsStyleType)),
     [dotsStyleType, setDotsStyleType],
   );
 

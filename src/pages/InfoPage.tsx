@@ -23,6 +23,7 @@ const GITHUB_URL = 'https://github.com/klnvch/LinkFiveDotsWeb';
 export const InfoPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const appName = t('common.appName');
 
   const handleBack = useCallback(() => navigate(-1), [navigate]);
 
@@ -39,9 +40,9 @@ export const InfoPage: React.FC = () => {
         icon: <EmailIcon />,
         label: t('info.email'),
         onClick: () => {
-          const subject = encodeURIComponent('Link Five Dots');
+          const subject = encodeURIComponent(appName);
           const body = encodeURIComponent('Hello!');
-          window.location.href = `mailto:klnvch.dev@gmail.com?subject=${subject}&body=${body}`;
+          window.location.href = `mailto:link5dots@gmail.com?subject=${subject}&body=${body}`;
         },
       },
       {
@@ -49,13 +50,12 @@ export const InfoPage: React.FC = () => {
         icon: <ShareIcon />,
         label: t('info.share'),
         onClick: async () => {
-          const shareText = 'Link Five Dots';
-          const shareUrl = window.location.href;
+          const shareUrl = window.location.host;
+          console.log(shareUrl);
           if (navigator.share) {
             try {
               await navigator.share({
-                title: shareText,
-                text: shareText,
+                title: appName,
                 url: shareUrl,
               });
             } catch {
@@ -68,7 +68,7 @@ export const InfoPage: React.FC = () => {
         },
       },
     ],
-    [t],
+    [appName, t],
   );
 
   return (

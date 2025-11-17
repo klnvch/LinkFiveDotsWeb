@@ -12,6 +12,7 @@ import {
   Point,
 } from '@klnvch/link-five-dots-shared';
 import DotCanvas from './DotCanvas';
+import Arrows from './Arrows';
 
 const colorRed = 0xffff0000;
 const colorBlue = 0xff0000ff;
@@ -33,6 +34,17 @@ export const GameBoard: React.FC<GameBoardProps> = ({
 
   // Board is fixed at 600px, so we don't need to track size changes
   const boardSize = 600;
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    if (container.clientWidth < container.scrollWidth) {
+      container.scrollLeft = (boardSize - container.clientWidth) / 4;
+    }
+    if (container.clientHeight < container.scrollHeight) {
+      container.scrollTop = (boardSize - container.clientHeight) / 4;
+    }
+  }, []);
 
   const paper = useMemo(
     () => new Paper(dotsStyleType, boardSize, colorRed, colorBlue),
@@ -198,7 +210,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'auto',
-        cursor: isDragging ? 'grabbing' : 'grab',
       }}
       ref={containerRef}
       onMouseDown={handleMouseDown}
@@ -243,23 +254,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
             position={paper.toDotPaperPosition(dot)}
           />
         ))}
-        {lastDotOffset && (
-          <img
-            src="/arrows.png"
-            alt=""
-            aria-hidden="true"
-            draggable="false"
-            decoding="async"
-            loading="eager"
-            style={{
-              userSelect: 'none',
-              position: 'absolute',
-              left: lastDotOffset.x,
-              top: lastDotOffset.y,
-              pointerEvents: 'none',
-            }}
-          />
-        )}
+        <Arrows position={lastDotOffset} />
         {line?.linePositions?.map((p, idx) => (
           <DotCanvas key={idx} bitmap={line.lineBitmap} position={p} />
         ))}
