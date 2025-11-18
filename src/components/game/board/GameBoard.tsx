@@ -13,6 +13,7 @@ import {
 } from '@klnvch/link-five-dots-shared';
 import DotCanvas from './DotCanvas';
 import Arrows from './Arrows';
+import PaperImage from './PaperImage';
 
 const colorRed = 0xffff0000;
 const colorBlue = 0xff0000ff;
@@ -26,7 +27,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   onMoveDone,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const boardRef = useRef<HTMLDivElement>(null);
   const hasDraggedRef = useRef(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
   const scrollStartRef = useRef({ x: 0, y: 0 });
@@ -39,7 +39,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     const container = containerRef.current;
     if (!container) return;
     if (container.clientWidth < container.scrollWidth) {
-      container.scrollLeft = (boardSize - container.clientWidth) / 4;
+      container.scrollLeft = (boardSize - container.clientWidth) / 2;
     }
     if (container.clientHeight < container.scrollHeight) {
       container.scrollTop = (boardSize - container.clientHeight) / 4;
@@ -208,7 +208,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         height: '100%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
         overflow: 'auto',
       }}
       ref={containerRef}
@@ -228,25 +227,11 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           minWidth: '600px',
           minHeight: '600px',
           flexShrink: 0,
+          marginLeft: 'auto',
+          marginRight: 'auto',
         }}
-        ref={boardRef}
       >
-        <img
-          src="/background.png"
-          alt=""
-          draggable="false"
-          aria-hidden="true"
-          decoding="async"
-          loading="eager"
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'block',
-            userSelect: 'none',
-            pointerEvents: 'auto',
-          }}
-          onClick={handleImageClick}
-        />
+        <PaperImage onClick={handleImageClick} />
         {dots.map((dot, idx) => (
           <DotCanvas
             key={idx}
@@ -254,10 +239,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({
             position={paper.toDotPaperPosition(dot)}
           />
         ))}
-        <Arrows position={lastDotOffset} />
         {line?.linePositions?.map((p, idx) => (
           <DotCanvas key={idx} bitmap={line.lineBitmap} position={p} />
         ))}
+        <Arrows position={lastDotOffset} />
       </Box>
     </Box>
   );

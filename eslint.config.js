@@ -46,7 +46,10 @@ export default [
       'react-refresh': reactRefresh,
     },
     rules: {
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'no-unused-vars': 'off',
@@ -55,7 +58,8 @@ export default [
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
     },
+    globals: {
+      __APP_VERSION__: 'readonly',
+    },
   },
 ];
-
-

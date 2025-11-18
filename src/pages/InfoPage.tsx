@@ -50,19 +50,19 @@ export const InfoPage: React.FC = () => {
         icon: <ShareIcon />,
         label: t('info.share'),
         onClick: async () => {
-          const shareUrl = window.location.host;
-          console.log(shareUrl);
+          const data = {
+            title: appName,
+            url: window.location.origin,
+          };
+          console.log(JSON.stringify(data.url));
           if (navigator.share) {
             try {
-              await navigator.share({
-                title: appName,
-                url: shareUrl,
-              });
-            } catch {
-              /* empty */
+              await navigator.share(data);
+            } catch (e: unknown) {
+              console.log(e);
             }
           } else {
-            await navigator.clipboard.writeText(shareUrl);
+            await navigator.clipboard.writeText(data.url);
             alert(t('info.copied'));
           }
         },
@@ -90,7 +90,7 @@ export const InfoPage: React.FC = () => {
               style={{ borderRadius: 16 }}
             />
             <Typography variant="subtitle1" color="text.secondary">
-              {t('info.version', { version: '5.0.0' })}
+              {t('info.version', { version: __APP_VERSION__ })}
             </Typography>
 
             <Stack spacing={1.5} sx={{ width: '100%', maxWidth: 560 }}>
