@@ -44,7 +44,13 @@ export const GamePage: React.FC<GamePageProps> = ({
         </Toolbar>
       </AppBar>
       <Content>
-        <Box position="absolute" width="100%" padding="8px" zIndex="2">
+        <Box
+          position="absolute"
+          width="100%"
+          padding="8px"
+          zIndex="2"
+          sx={{ pointerEvents: 'none' }}
+        >
           <GameInfo uiState={infoViewState} />
         </Box>
         <GameBoard uiState={boardViewState} onMoveDone={onMoveDone} />

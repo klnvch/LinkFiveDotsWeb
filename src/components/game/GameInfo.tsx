@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import React, { useMemo } from 'react';
+import { alpha, Box, Paper, Typography, useTheme } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import {
   formatDuration,
@@ -35,9 +35,7 @@ interface UserProps {
 const UserName: React.FC<UserProps> = ({ user: { name, canMove, isWon } }) => {
   const selected = canMove || isWon;
   return (
-    <Typography variant={'h5'} fontWeight={selected ? 'bold' : 'normal'}>
-      {name}
-    </Typography>
+    <Typography fontWeight={selected ? 'bold' : 'normal'}>{name}</Typography>
   );
 };
 
@@ -61,7 +59,7 @@ const UserDuration: React.FC<UserProps> = ({
   const totalDuration = duration + elapsedTime;
 
   return (
-    <Typography variant={'h5'} fontWeight={selected ? 'bold' : 'normal'}>
+    <Typography fontWeight={selected ? 'bold' : 'normal'}>
       {formatDuration(totalDuration)}
     </Typography>
   );
@@ -89,18 +87,21 @@ interface GameInfoProps {
 export const GameInfo: React.FC<GameInfoProps> = ({
   uiState: { size, user1, user2 },
 }) => {
+  const theme = useTheme();
   const { user1Color, user2Color } = useColors();
+  const backgroundColor = useMemo(
+    () => alpha(theme.palette.background.paper, 0.5),
+    [theme],
+  );
   return (
     <Box display="flex" alignItems="flex-start" justifyContent="space-between">
       {/* Size in top left */}
-      <Paper elevation={1} sx={{ p: 1 }}>
-        <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-          {size}
-        </Typography>
+      <Paper elevation={1} sx={{ p: 1, backgroundColor }}>
+        <Typography sx={{ fontWeight: 'bold' }}>{size}</Typography>
       </Paper>
 
       {/* User details in top right */}
-      <Paper elevation={1} sx={{ p: 1 }}>
+      <Paper elevation={1} sx={{ p: 1, backgroundColor }}>
         <Box
           sx={{
             display: 'grid',
