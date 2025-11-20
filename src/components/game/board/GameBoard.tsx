@@ -14,9 +14,10 @@ import {
 import DotCanvas from './DotCanvas';
 import Arrows from './Arrows';
 import PaperImage from './PaperImage';
+import { useColors } from '../../../hooks/useColors';
 
-const colorRed = 0xffff0000;
-const colorBlue = 0xff0000ff;
+// Board is fixed at 600px, so we don't need to track size changes
+const boardSize = 600;
 
 interface GameBoardProps {
   uiState: GameBoardViewState;
@@ -30,10 +31,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   const hasDraggedRef = useRef(false);
   const dragStartRef = useRef({ x: 0, y: 0 });
   const scrollStartRef = useRef({ x: 0, y: 0 });
+  const { user1Color, user2Color } = useColors();
   const [isDragging, setIsDragging] = useState(false);
-
-  // Board is fixed at 600px, so we don't need to track size changes
-  const boardSize = 600;
 
   useEffect(() => {
     const container = containerRef.current;
@@ -47,8 +46,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   }, []);
 
   const paper = useMemo(
-    () => new Paper(dotsStyleType, boardSize, colorRed, colorBlue),
-    [dotsStyleType, boardSize],
+    () => new Paper(dotsStyleType, boardSize, user1Color, user2Color),
+    [dotsStyleType, user1Color, user2Color],
   );
   const lastDotOffset = useMemo(
     () => (lastDot ? paper.toArrowsPaperPosition(lastDot) : null),
@@ -59,7 +58,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       winningLine
         ? paper.toLineOnPaper(
             winningLine,
-            dots.length % 2 === 1 ? colorRed : colorBlue,
+            dots.length % 2 === 1 ? user1Color : user2Color,
           )
         : null,
     [paper, winningLine, dots],
