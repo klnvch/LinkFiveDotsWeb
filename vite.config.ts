@@ -18,7 +18,7 @@ export default defineConfig({
       manifest: {
         id: '/',
         name: 'Link Five Dots',
-        short_name: 'FiveDots',
+        short_name: 'Five5Dots',
         description: 'Link Five Dots',
         theme_color: '#000000',
         background_color: '#000000',
@@ -63,5 +63,5 @@ export default defineConfig({
   },
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
-  }
+  },
 });

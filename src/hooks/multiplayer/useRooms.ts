@@ -8,7 +8,6 @@ import {
   FoundRemoteRoom,
   GameViewState,
   getRoomActionTitle,
-  getRoomIfAny,
   INetworkRoom,
   NetworkUser,
   mapToGameViewState,
@@ -23,14 +22,16 @@ import {
   Point,
   toNetworkRoomState,
   toPickerViewState,
+  toOnlineRoomLive,
 } from '@klnvch/link-five-dots-shared';
 import { useRoomKey } from './useRoomKey';
-import { t } from 'i18next';
 import { useAppContext } from '../../context/useAppContext';
+import { useTranslatedStrings } from '../../services/stringProvider';
 
 export const useRooms = (): RoomState & RoomActions => {
   const [key, setKey, clearKey] = useRoomKey();
   const { userId, userName, dotsStyleType } = useAppContext();
+  const stringProvider = useTranslatedStrings();
   const [user, setUser] = useState<NetworkUser | null>(null);
   const [onlineRoom, setOnlineRoom] = useState<OnlineRoom | null>(null);
   const [roomState, setRoomState] = useState<NetworkRoomState | null>(null);
@@ -74,16 +75,22 @@ export const useRooms = (): RoomState & RoomActions => {
   useEffect(() => {
     console.log('onlineRoom', onlineRoom?.toString());
     if (onlineRoom) {
-      const room = getRoomIfAny(onlineRoom);
-      if (room) {
-        setRoom(room);
-        setGameViewState(mapToGameViewState(dotsStyleType, 'Unknown', room));
+      const onlineRoomLive = toOnlineRoomLive(onlineRoom);
+      if (onlineRoomLive) {
+        setRoom(onlineRoomLive.room);
+        setGameViewState(
+          mapToGameViewState(
+            dotsStyleType,
+            stringProvider.unknownName,
+            onlineRoomLive,
+          ),
+        );
       }
-      setRoomState(toNetworkRoomState(onlineRoom, t('room.unknownUser')));
+      setRoomState(toNetworkRoomState(onlineRoom, stringProvider.unknownName));
     } else {
       setGameViewState(null);
     }
-  }, [dotsStyleType, onlineRoom]);
+  }, [dotsStyleType, onlineRoom, stringProvider]);
 
   useEffect(() => {
     console.log('roomState', roomState?.toString());
@@ -175,13 +182,13 @@ export const useRooms = (): RoomState & RoomActions => {
     if (!user) return;
     scanRef.current = roomService.subscribeToInvitations(
       user,
-      t('room.unknownUser'),
+      stringProvider.unknownName,
       (invitations: FoundRemoteRoom[]) => {
         setState(state.scanning(invitations));
       },
       setKey,
     );
-  }, [user, state, setKey]);
+  }, [user, state, setKey, stringProvider]);
 
   // Unsubscribe on unmount
   useEffect(() => {
