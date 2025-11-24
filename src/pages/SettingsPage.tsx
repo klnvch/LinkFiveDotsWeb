@@ -98,7 +98,7 @@ const SettingsPage: React.FC = () => {
           <AppBarTitle translation="common.settings" />
         </Toolbar>
       </AppBar>
-      <Content>
+      <Content sx={{ overflowY: 'auto' }}>
         <Container maxWidth="sm">
           <Stack spacing={1.5} sx={{ m: 2 }}>
             <Button

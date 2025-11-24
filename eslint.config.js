@@ -38,6 +38,8 @@ export default [
         clearInterval: 'readonly',
         // React global (for explicit React.* usage without import)
         React: 'readonly',
+        __APP_VERSION__: 'readonly',
+        __BUILD_DATE__: 'readonly',
       },
     },
     plugins: {
@@ -57,9 +59,6 @@ export default [
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
-    },
-    globals: {
-      __APP_VERSION__: 'readonly',
     },
   },
 ];

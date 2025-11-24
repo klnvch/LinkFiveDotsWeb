@@ -79,11 +79,7 @@ export const useRooms = (): RoomState & RoomActions => {
       if (onlineRoomLive) {
         setRoom(onlineRoomLive.room);
         setGameViewState(
-          mapToGameViewState(
-            dotsStyleType,
-            stringProvider.unknownName,
-            onlineRoomLive,
-          ),
+          mapToGameViewState(dotsStyleType, stringProvider, onlineRoomLive),
         );
       }
       setRoomState(toNetworkRoomState(onlineRoom, stringProvider.unknownName));

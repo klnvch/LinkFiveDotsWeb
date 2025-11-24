@@ -20,7 +20,7 @@ const HelpPage: React.FC = () => {
           <AppBarTitle translation="help.title" />
         </Toolbar>
       </AppBar>
-      <Content>
+      <Content sx={{ overflowY: 'auto' }}>
         <Container maxWidth="sm">
           <div style={{ padding: 24, maxWidth: 700, margin: '0 auto' }}>
             <Typography variant="h4" gutterBottom>

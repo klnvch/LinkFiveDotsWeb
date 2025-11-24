@@ -24,6 +24,16 @@ export const InfoPage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const appName = t('common.appName');
+  const buildDate = useMemo(
+    () =>
+      new Date(__BUILD_DATE__).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      }),
+    [],
+  );
+  const version = `${__APP_VERSION__} - ${buildDate}`;
 
   const handleBack = useCallback(() => navigate(-1), [navigate]);
 
@@ -79,9 +89,9 @@ export const InfoPage: React.FC = () => {
           <AppBarTitle translation="info.title" />
         </Toolbar>
       </AppBar>
-      <Content>
+      <Content sx={{ overflowY: 'auto' }}>
         <Container maxWidth="sm">
-          <Stack alignItems="center" spacing={4} sx={{ py: 6 }}>
+          <Stack alignItems="center" spacing={3}>
             <img
               src={APP_ICON}
               width={96}
@@ -90,10 +100,9 @@ export const InfoPage: React.FC = () => {
               style={{ borderRadius: 16 }}
             />
             <Typography variant="subtitle1" color="text.secondary">
-              {t('info.version', { version: __APP_VERSION__ })}
+              {t('info.version', { version })}
             </Typography>
-
-            <Stack spacing={1.5} sx={{ width: '100%', maxWidth: 560 }}>
+            <Stack spacing={1.5}>
               {actions.map(({ key, icon, label, onClick }) => (
                 <Button
                   key={key}
@@ -103,7 +112,9 @@ export const InfoPage: React.FC = () => {
                   onClick={onClick}
                   sx={{ justifyContent: 'flex-start', py: 1.5 }}
                 >
-                  <Typography fontWeight={700}>{label}</Typography>
+                  <Typography fontWeight={700} sx={{ px: 3 }}>
+                    {label}
+                  </Typography>
                 </Button>
               ))}
             </Stack>

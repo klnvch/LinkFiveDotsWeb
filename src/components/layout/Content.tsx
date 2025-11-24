@@ -11,6 +11,7 @@ const StyledContent = styled(Box)<BoxProps>(
       mode === 'dark' ? '/paper_dark.png' : '/paper_light.png'
     })`,
     backgroundRepeat: 'repeat',
+    display: 'flex',
   }),
 );
 

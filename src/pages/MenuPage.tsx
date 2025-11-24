@@ -1,13 +1,5 @@
 import React, { useMemo } from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  Container,
-  Button,
-  Stack,
-  Grid,
-} from '@mui/material';
+import { AppBar, Toolbar, Container, Button, Stack, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AndroidIcon from '@mui/icons-material/Android';
@@ -45,6 +37,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     fullWidth={fullWidth}
     onClick={onClick}
     aria-label={ariaLabel}
+    sx={{ whiteSpace: 'nowrap' }}
   >
     {children}
   </Button>
@@ -138,65 +131,61 @@ const MenuPage: React.FC = () => {
         </Toolbar>
       </AppBar>
       <Content>
-        <Container maxWidth="sm">
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="80vh"
-            py={4}
-          >
-            <Grid container spacing={3} sx={{ maxWidth: 600 }}>
-              <Grid size={12}>
-                <GreetingText />
-              </Grid>
-
-              {/* Game Mode Buttons */}
-              <Grid size={6}>
-                <GameModeButton
-                  onClick={navigationHandlers.singleplayer}
-                  label={t('common.singleplayer')}
-                  icons={singleplayerIcons}
-                  aria-label={`${t(
-                    'common.singleplayer',
-                  )} - Play against computer`}
-                />
-              </Grid>
-              <Grid size={6}>
-                <GameModeButton
-                  onClick={navigationHandlers.multiplayer}
-                  label={t('common.multiplayer')}
-                  icons={multiplayerIcons}
-                  aria-label={`${t('common.multiplayer')} - Play with friends`}
-                />
-              </Grid>
-
-              {/* Action Buttons */}
-              <Grid size={4}>
-                <IconMenuButton
-                  onClick={navigationHandlers.settings}
-                  icon={<SettingsIcon />}
-                  aria-label={`${t(
-                    'common.settings',
-                  )} - Configure app settings`}
-                />
-              </Grid>
-              <Grid size={4}>
-                <IconMenuButton
-                  onClick={navigationHandlers.info}
-                  icon={<InfoIcon />}
-                  aria-label="App information"
-                />
-              </Grid>
-              <Grid size={4}>
-                <IconMenuButton
-                  onClick={navigationHandlers.help}
-                  icon={<HelpIcon />}
-                  aria-label="Help and instructions"
-                />
-              </Grid>
+        <Container
+          maxWidth="sm"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Grid container spacing={3}>
+            <Grid size={12}>
+              <GreetingText />
             </Grid>
-          </Box>
+
+            {/* Game Mode Buttons */}
+            <Grid size={6}>
+              <GameModeButton
+                onClick={navigationHandlers.singleplayer}
+                label={t('common.singleplayer')}
+                icons={singleplayerIcons}
+                aria-label={`${t(
+                  'common.singleplayer',
+                )} - Play against computer`}
+              />
+            </Grid>
+            <Grid size={6}>
+              <GameModeButton
+                onClick={navigationHandlers.multiplayer}
+                label={t('common.multiplayer')}
+                icons={multiplayerIcons}
+                aria-label={`${t('common.multiplayer')} - Play with friends`}
+              />
+            </Grid>
+
+            {/* Action Buttons */}
+            <Grid size={4}>
+              <IconMenuButton
+                onClick={navigationHandlers.settings}
+                icon={<SettingsIcon />}
+                aria-label={`${t('common.settings')} - Configure app settings`}
+              />
+            </Grid>
+            <Grid size={4}>
+              <IconMenuButton
+                onClick={navigationHandlers.info}
+                icon={<InfoIcon />}
+                aria-label="App information"
+              />
+            </Grid>
+            <Grid size={4}>
+              <IconMenuButton
+                onClick={navigationHandlers.help}
+                icon={<HelpIcon />}
+                aria-label="Help and instructions"
+              />
+            </Grid>
+          </Grid>
         </Container>
       </Content>
     </Page>

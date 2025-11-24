@@ -61,7 +61,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
             dots.length % 2 === 1 ? user1Color : user2Color,
           )
         : null,
-    [paper, winningLine, dots],
+    [paper, winningLine, dots, user1Color, user2Color],
   );
   const getDotBitmap = useCallback(
     (idx: number) => (idx % 2 === 0 ? paper.user1Dot : paper.user2Dot),
