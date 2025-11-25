@@ -91,7 +91,7 @@ export const InfoPage: React.FC = () => {
       </AppBar>
       <Content sx={{ overflowY: 'auto' }}>
         <Container maxWidth="sm">
-          <Stack alignItems="center" spacing={3}>
+          <Stack alignItems="center" spacing={3} sx={{ p: 2 }}>
             <img
               src={APP_ICON}
               width={96}
@@ -112,7 +112,7 @@ export const InfoPage: React.FC = () => {
                   onClick={onClick}
                   sx={{ justifyContent: 'flex-start', py: 1.5 }}
                 >
-                  <Typography fontWeight={700} sx={{ px: 3 }}>
+                  <Typography fontWeight={700} sx={{ px: 3, width: '100%' }}>
                     {label}
                   </Typography>
                 </Button>

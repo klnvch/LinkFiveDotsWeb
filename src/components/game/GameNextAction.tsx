@@ -9,17 +9,13 @@ interface ActionButtonProps {
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
-  isEnabled: boolean;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   icon,
   label,
   onClick,
-  isEnabled,
 }) => {
-  if (!isEnabled) return null;
-
   return (
     <Button
       variant="text"
@@ -44,7 +40,7 @@ interface GameNextActionProps {
   uiState: MenuViewState;
   isVisible: boolean;
   onNew: () => void;
-  onUndo: () => void;
+  onUndo?: () => void;
 }
 
 export const GameNextAction: React.FC<GameNextActionProps> = ({
@@ -68,31 +64,22 @@ export const GameNextAction: React.FC<GameNextActionProps> = ({
         boxShadow: 3,
       }}
     >
-      {isVisible ? (
-        <>
+      <>
+        {isVisible && newOption.isEnabled && (
           <ActionButton
             icon={<AddIcon />}
             label={t('options.new')}
             onClick={onNew}
-            isEnabled={newOption.isEnabled}
           />
+        )}
+        {undoOption.isEnabled && onUndo && (
           <ActionButton
             icon={<UndoIcon />}
             label={t('options.undo')}
             onClick={onUndo}
-            isEnabled={undoOption.isEnabled}
           />
-        </>
-      ) : (
-        <>
-          <ActionButton
-            icon={<UndoIcon />}
-            label={t('options.undo')}
-            onClick={onUndo}
-            isEnabled={undoOption.isEnabled}
-          />
-        </>
-      )}
+        )}
+      </>
     </Box>
   );
 };

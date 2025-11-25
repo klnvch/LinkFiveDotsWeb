@@ -100,7 +100,7 @@ const SettingsPage: React.FC = () => {
       </AppBar>
       <Content sx={{ overflowY: 'auto' }}>
         <Container maxWidth="sm">
-          <Stack spacing={1.5} sx={{ m: 2 }}>
+          <Stack spacing={1.5} sx={{ p: 2 }}>
             <Button
               variant="outlined"
               startIcon={<PersonIcon />}

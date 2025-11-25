@@ -15,7 +15,7 @@ interface GamePageProps {
   onMoveDone: (p: Point) => void;
   onClose: () => void;
   onNew: () => void;
-  onUndo: () => void;
+  onUndo?: () => void;
 }
 
 export const GamePage: React.FC<GamePageProps> = ({

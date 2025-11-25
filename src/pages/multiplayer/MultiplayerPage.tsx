@@ -66,8 +66,6 @@ const MultiplayerPage: React.FC = () => {
     [],
   );
 
-  const handleUndoMove = useCallback(() => {}, []);
-
   if (!isFirebaseConfigured) {
     return <ServiceUnavailable missingKeys={getMissingFirebaseEnvKeys()} />;
   }
@@ -98,7 +96,6 @@ const MultiplayerPage: React.FC = () => {
               onMoveDone={handleAddDot}
               onClose={handleCloseGame}
               onNew={handleCloseGame}
-              onUndo={handleUndoMove}
             />
           }
         />
