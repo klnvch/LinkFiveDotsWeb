@@ -43,7 +43,7 @@ const switchNightMode = (
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { userName, dotsStyleType, setDotsStyleType } = useAppContext();
+  const { userName, dotsStyle, setDotsStyle } = useAppContext();
   const { mode, setMode } = useColorScheme();
   const { t } = useTranslation();
   const deleteAll = useDeleteAll();
@@ -71,8 +71,8 @@ const SettingsPage: React.FC = () => {
   );
 
   const changeDotStyle = useCallback(
-    () => setDotsStyleType(getNextDotsStyleType(dotsStyleType)),
-    [dotsStyleType, setDotsStyleType],
+    () => setDotsStyle(getNextDotsStyleType(dotsStyle)),
+    [dotsStyle, setDotsStyle],
   );
 
   const confirmClearData = useCallback(() => {

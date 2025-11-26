@@ -1,26 +1,26 @@
-import { DotsStyleType } from '@klnvch/link-five-dots-shared';
+import { DotsStyle } from '@klnvch/link-five-dots-shared';
 
-const DOTS_STYLE_TYPE_KEY = 'dotsStyleType';
+const DOTS_STYLE_KEY = 'dotsStyle';
 
-export function readDotsStyleType(): DotsStyleType {
+export function readDotsStyle(): DotsStyle {
   try {
-    const raw = localStorage.getItem(DOTS_STYLE_TYPE_KEY);
+    const raw = localStorage.getItem(DOTS_STYLE_KEY);
     if (raw) {
-      return DotsStyleType.valueOf(raw);
+      return DotsStyle.valueOf(raw);
     } else {
-      return DotsStyleType.ORIGINAL;
+      return DotsStyle.ORIGINAL;
     }
   } catch {
-    return DotsStyleType.ORIGINAL;
+    return DotsStyle.ORIGINAL;
   }
 }
 
-export function saveDotsStyleType(value: DotsStyleType | null): void {
+export function saveDotsStyle(value: DotsStyle | null): void {
   try {
     if (value == null) {
-      localStorage.removeItem(DOTS_STYLE_TYPE_KEY);
+      localStorage.removeItem(DOTS_STYLE_KEY);
     } else {
-      localStorage.setItem(DOTS_STYLE_TYPE_KEY, value.name);
+      localStorage.setItem(DOTS_STYLE_KEY, value.name);
     }
   } catch {
     // ignore

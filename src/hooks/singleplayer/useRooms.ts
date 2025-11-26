@@ -13,7 +13,7 @@ import { useRoom } from './userRoom';
 
 export const useRooms = () => {
   const stringProvider = useTranslatedStrings();
-  const { userName, dotsStyleType } = useAppContext();
+  const { userName } = useAppContext();
   const [room, setRoom] = useRoom();
   const [viewState, setViewState] = useState<GameViewState | null>(null);
 
@@ -21,11 +21,9 @@ export const useRooms = () => {
     if (!room) {
       createBotGame(setRoom);
     } else {
-      setViewState(
-        mapToBotGameViewState(dotsStyleType, userName, stringProvider, room),
-      );
+      setViewState(mapToBotGameViewState(userName, stringProvider, room));
     }
-  }, [room, dotsStyleType, setRoom, userName, stringProvider]);
+  }, [room, setRoom, userName, stringProvider]);
 
   const newGame = useCallback(async () => {
     await createBotGame(setRoom);

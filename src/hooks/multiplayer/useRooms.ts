@@ -30,7 +30,7 @@ import { useTranslatedStrings } from '../../services/stringProvider';
 
 export const useRooms = (): RoomState & RoomActions => {
   const [key, setKey, clearKey] = useRoomKey();
-  const { userId, userName, dotsStyleType } = useAppContext();
+  const { userId, userName } = useAppContext();
   const stringProvider = useTranslatedStrings();
   const [user, setUser] = useState<NetworkUser | null>(null);
   const [onlineRoom, setOnlineRoom] = useState<OnlineRoom | null>(null);
@@ -78,15 +78,13 @@ export const useRooms = (): RoomState & RoomActions => {
       const onlineRoomLive = toOnlineRoomLive(onlineRoom);
       if (onlineRoomLive) {
         setRoom(onlineRoomLive.room);
-        setGameViewState(
-          mapToGameViewState(dotsStyleType, stringProvider, onlineRoomLive),
-        );
+        setGameViewState(mapToGameViewState(stringProvider, onlineRoomLive));
       }
       setRoomState(toNetworkRoomState(onlineRoom, stringProvider.unknownName));
     } else {
       setGameViewState(null);
     }
-  }, [dotsStyleType, onlineRoom, stringProvider]);
+  }, [onlineRoom, stringProvider]);
 
   useEffect(() => {
     console.log('roomState', roomState?.toString());

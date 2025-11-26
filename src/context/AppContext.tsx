@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useReducer, useCallback } from 'react';
 import { readUserName, saveUserName } from '../services/userNameSetting';
 import { useUserId } from '../hooks/multiplayer/useUserId';
-import { DotsStyleType } from '@klnvch/link-five-dots-shared';
-import {
-  readDotsStyleType,
-  saveDotsStyleType,
-} from '../services/dotsStyleSetting';
+import { DotsStyle } from '@klnvch/link-five-dots-shared';
+import { readDotsStyle, saveDotsStyle } from '../services/dotsStyleSetting';
 import {
   AppContext,
   type AppContextValue,
@@ -15,12 +12,12 @@ import {
 type AppAction =
   | { type: 'setUserName'; payload: string | null }
   | { type: 'setUserId'; payload: string | null }
-  | { type: 'setDotsStyleType'; payload: DotsStyleType | null };
+  | { type: 'setDotsStyle'; payload: DotsStyle | null };
 
 const initialState: AppState = {
   userName: null,
   userId: null,
-  dotsStyleType: DotsStyleType.ORIGINAL,
+  dotsStyle: DotsStyle.ORIGINAL,
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
@@ -31,8 +28,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
     case 'setUserId': {
       return { ...state, userId: action.payload };
     }
-    case 'setDotsStyleType': {
-      return { ...state, dotsStyleType: action.payload ?? readDotsStyleType() };
+    case 'setDotsStyle': {
+      return { ...state, dotsStyle: action.payload ?? readDotsStyle() };
     }
     default: {
       return state;
@@ -55,13 +52,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
   }, [state.userName]);
 
-  // Initialize dotsStyleType from storage once
+  // Initialize dotsStyle from storage once
   useEffect(() => {
-    const stored = readDotsStyleType();
-    if (stored !== state.dotsStyleType) {
-      dispatch({ type: 'setDotsStyleType', payload: stored });
+    const stored = readDotsStyle();
+    if (stored !== state.dotsStyle) {
+      dispatch({ type: 'setDotsStyle', payload: stored });
     }
-  }, [state.dotsStyleType]);
+  }, [state.dotsStyle]);
 
   // Sync firebaseUserId from auth
   useEffect(() => {
@@ -76,14 +73,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'setUserName', payload: trimmed });
   }, []);
 
-  const setDotsStyleType = useCallback((type: DotsStyleType | null) => {
-    saveDotsStyleType(type);
-    dispatch({ type: 'setDotsStyleType', payload: type });
+  const setDotsStyle = useCallback((type: DotsStyle | null) => {
+    saveDotsStyle(type);
+    dispatch({ type: 'setDotsStyle', payload: type });
   }, []);
 
   const value: AppContextValue = useMemo(
-    () => ({ ...state, setUserName, setDotsStyleType }),
-    [state, setUserName, setDotsStyleType],
+    () => ({ ...state, setUserName, setDotsStyle }),
+    [state, setUserName, setDotsStyle],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

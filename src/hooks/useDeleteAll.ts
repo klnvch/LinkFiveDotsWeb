@@ -5,12 +5,12 @@ import { clearOnlineGameKey } from './multiplayer/useRoomKey';
 import { resetLanguage } from '../i18n';
 
 export function useDeleteAll() {
-  const { setUserName, setDotsStyleType } = useAppContext();
+  const { setUserName, setDotsStyle } = useAppContext();
   const { setMode } = useColorScheme();
 
   return () => {
     setUserName(null);
-    setDotsStyleType(null);
+    setDotsStyle(null);
     resetLanguage();
     setMode(null);
     clearBotGame();

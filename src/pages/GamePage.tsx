@@ -8,6 +8,7 @@ import { GameViewState, Point } from '@klnvch/link-five-dots-shared';
 import { Page } from '../components/layout/Page';
 import { Content } from '../components/layout/Content';
 import { BackButton } from '../components/BackButton';
+import { useAppContext } from '../context/useAppContext';
 
 interface GamePageProps {
   uiState: GameViewState | null;
@@ -26,8 +27,9 @@ export const GamePage: React.FC<GamePageProps> = ({
   onNew,
   onUndo,
 }) => {
-  if (!uiState) return;
+  const { dotsStyle } = useAppContext();
 
+  if (!uiState) return;
   const { infoViewState, boardViewState, menuViewState, isOver } = uiState;
 
   return (
@@ -43,7 +45,7 @@ export const GamePage: React.FC<GamePageProps> = ({
           />
         </Toolbar>
       </AppBar>
-      <Content>
+      <Content sx={{ height: '82vh' }}>
         <Box
           position="absolute"
           width="100%"
@@ -53,9 +55,13 @@ export const GamePage: React.FC<GamePageProps> = ({
         >
           <GameInfo uiState={infoViewState} />
         </Box>
-        <GameBoard uiState={boardViewState} onMoveDone={onMoveDone} />
+        <GameBoard
+          uiState={boardViewState}
+          dotsStyle={dotsStyle}
+          onMoveDone={onMoveDone}
+        />
       </Content>
-      <Box sx={{ height: 80 }}>
+      <Box sx={{ height: '10vh' }}>
         <GameNextAction
           uiState={menuViewState}
           isVisible={isOver}

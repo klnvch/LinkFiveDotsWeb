@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { Box } from '@mui/material';
 import {
+  DotsStyle,
   GameBoardViewState,
   Paper,
   Point,
@@ -21,10 +22,12 @@ const boardSize = 600;
 
 interface GameBoardProps {
   uiState: GameBoardViewState;
+  dotsStyle: DotsStyle;
   onMoveDone: (p: Point) => void;
 }
 export const GameBoard: React.FC<GameBoardProps> = ({
-  uiState: { dots, lastDot, winningLine, dotsStyleType },
+  uiState: { dots, lastDot, winningLine },
+  dotsStyle,
   onMoveDone,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,13 +44,13 @@ export const GameBoard: React.FC<GameBoardProps> = ({
       container.scrollLeft = (boardSize - container.clientWidth) / 2;
     }
     if (container.clientHeight < container.scrollHeight) {
-      container.scrollTop = (boardSize - container.clientHeight) / 4;
+      container.scrollTop = (boardSize - container.clientHeight) / 2;
     }
   }, []);
 
   const paper = useMemo(
-    () => new Paper(dotsStyleType, boardSize, user1Color, user2Color),
-    [dotsStyleType, user1Color, user2Color],
+    () => new Paper(dotsStyle, boardSize, user1Color, user2Color),
+    [dotsStyle, user1Color, user2Color],
   );
   const lastDotOffset = useMemo(
     () => (lastDot ? paper.toArrowsPaperPosition(lastDot) : null),
@@ -225,9 +228,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           height: '600px',
           minWidth: '600px',
           minHeight: '600px',
-          flexShrink: 0,
-          marginLeft: 'auto',
-          marginRight: 'auto',
+          margin: 'auto',
         }}
       >
         <PaperImage onClick={handleImageClick} />

@@ -6,8 +6,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Fade from '@mui/material/Fade';
 
 const MenuPage = lazy(() => import('./pages/MenuPage'));
-const MultiplayerPage = lazy(() => import('./pages/multiplayer/MultiplayerPage'));
-const SinglePlayerPage = lazy(() => import('./pages/singleplayer/SinglePlayerPage'));
+const MultiplayerPage = lazy(
+  () => import('./pages/multiplayer/MultiplayerPage'),
+);
+const SinglePlayerPage = lazy(
+  () => import('./pages/singleplayer/SinglePlayerPage'),
+);
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const InfoPage = lazy(() => import('./pages/InfoPage'));
 const HelpPage = lazy(() => import('./pages/HelpPage'));

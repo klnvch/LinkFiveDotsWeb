@@ -14,13 +14,7 @@ export const Main = () => {
       createTheme({
         mixins: {
           toolbar: {
-            minHeight: 56, // Default mobile portrait height
-            '@media (min-width:0px) and (orientation: landscape)': {
-              minHeight: 48, // Mobile landscape height
-            },
-            '@media (min-width:600px)': {
-              minHeight: 64, // Tablet/Desktop height
-            },
+            height: '8vh',
           },
         },
         colorSchemes: {

@@ -1,15 +1,15 @@
 import { createContext } from 'react';
-import { DotsStyleType } from '@klnvch/link-five-dots-shared';
+import { DotsStyle } from '@klnvch/link-five-dots-shared';
 
 export type AppState = {
   userName: string | null;
   userId: string | null;
-  dotsStyleType: DotsStyleType;
+  dotsStyle: DotsStyle;
 };
 
 export type AppContextValue = AppState & {
   setUserName: (name: string | null) => void;
-  setDotsStyleType: (type: DotsStyleType | null) => void;
+  setDotsStyle: (type: DotsStyle | null) => void;
 };
 
 export const AppContext = createContext<AppContextValue | undefined>(undefined);
