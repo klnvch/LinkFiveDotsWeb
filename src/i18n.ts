@@ -5,26 +5,34 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import enTranslations from './locales/en.json';
 import plTranslations from './locales/pl.json';
 
-export const DEFAULT_LANGUAGE = 'en';
+const DEFAULT_LANGUAGE = 'en';
+const SUPPORTED_LANGS = ['en', 'pl'];
 
-export function resetLanguage() {
-  localStorage.removeItem('language');
-  const resources = (i18n.options as any)?.resources as
-    | Record<string, unknown>
-    | undefined;
-  const supportedLangs = resources ? Object.keys(resources) : [];
+// ---------------------------------------------------------------------------
+// Helper utilities
+// ---------------------------------------------------------------------------
+
+/** Get the language code (e.g. "en") from navigator.language if available. */
+const getNavigatorLanguage = (): string | undefined => {
   const navLang =
     typeof navigator !== 'undefined' ? navigator.language : undefined;
-  const primaryTag = navLang ? navLang.split('-')[0].toLowerCase() : undefined;
-  const langToUse =
-    primaryTag && supportedLangs.includes(primaryTag)
-      ? primaryTag
-      : DEFAULT_LANGUAGE;
-  i18n.changeLanguage(langToUse);
-}
+  return navLang?.split('-')[0].toLowerCase();
+};
 
-// Get saved language from localStorage or use browser default
-const savedLanguage = localStorage.getItem('language');
+/**
+ * Return a supported language or the default.
+ * @param lang - candidate language code
+ */
+const normalizeLang = (lang?: string): string =>
+  lang && SUPPORTED_LANGS.includes(lang) ? lang : DEFAULT_LANGUAGE;
+
+// ---------------------------------------------------------------------------
+// i18next configuration
+// ---------------------------------------------------------------------------
+
+/** Load initial language from localStorage or browser fallback. */
+const initialLang =
+  localStorage.getItem('language') || normalizeLang(getNavigatorLanguage());
 
 i18n
   .use(LanguageDetector)
@@ -38,9 +46,9 @@ i18n
         translation: plTranslations,
       },
     },
-    supportedLngs: ['en', 'pl'],
+    supportedLngs: SUPPORTED_LANGS,
     fallbackLng: DEFAULT_LANGUAGE,
-    lng: savedLanguage || undefined, // Use saved language if available
+    lng: initialLang,
     interpolation: {
       escapeValue: false,
     },
@@ -50,9 +58,16 @@ i18n
     },
   });
 
-// Save language choice to localStorage when it changes
-i18n.on('languageChanged', (lng) => {
-  localStorage.setItem('language', lng);
-});
+/** Persist any language change to localStorage. */
+i18n.on('languageChanged', (lng) => localStorage.setItem('language', lng));
 
 export default i18n;
+
+/**
+ * Reset the chosen language to browser default and update i18next.
+ */
+export function resetLanguage() {
+  localStorage.removeItem('language');
+  const langToUse = normalizeLang(getNavigatorLanguage());
+  i18n.changeLanguage(langToUse);
+}

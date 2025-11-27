@@ -5,19 +5,13 @@ import { PickerPage } from './PickerPage';
 import { GamePage } from '../GamePage';
 import { DisconnectDialog } from '../../components/game/DisconnectDialog';
 import { useRoomNavigation } from '../../hooks/multiplayer/useRoomNavigation';
-import {
-  FoundRemoteRoom,
-  PickerScreenGame,
-  Point,
-} from '@klnvch/link-five-dots-shared';
+import { FoundRemoteRoom, Point } from '@klnvch/link-five-dots-shared';
 import { MultiplayerAppBarTitle } from '../../components/MultiplayerAppBarTitle';
 import {
   isFirebaseConfigured,
   getMissingFirebaseEnvKeys,
 } from '../../firebase';
 import { ServiceUnavailable } from '../../components/ServiceUnavailable';
-
-const pickerGameScreen = PickerScreenGame.getInstance();
 
 const MultiplayerPage: React.FC = () => {
   const {
@@ -51,7 +45,7 @@ const MultiplayerPage: React.FC = () => {
     setDisconnectOpen(false);
   }, [exitGame, navigate]);
 
-  const isGameScreen = pickerViewState.screen === pickerGameScreen;
+  const isGameScreen = pickerViewState.screen.isGame;
 
   const handleCloseGame = useCallback(async () => {
     if (isGameScreen) {

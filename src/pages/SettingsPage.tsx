@@ -20,7 +20,7 @@ import { ClearDataDialog } from '../components/ClearDataDialog';
 import { useAppContext } from '../context/useAppContext';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
-import { getNextDotsStyleType } from '@klnvch/link-five-dots-shared';
+import { getNextDotsStyle } from '@klnvch/link-five-dots-shared';
 import { Page } from '../components/layout/Page';
 import { Content } from '../components/layout/Content';
 import { BackButton } from '../components/BackButton';
@@ -71,7 +71,7 @@ const SettingsPage: React.FC = () => {
   );
 
   const changeDotStyle = useCallback(
-    () => setDotsStyle(getNextDotsStyleType(dotsStyle)),
+    () => setDotsStyle(getNextDotsStyle(dotsStyle)),
     [dotsStyle, setDotsStyle],
   );
 

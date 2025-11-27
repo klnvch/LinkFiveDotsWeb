@@ -37,17 +37,32 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   const { user1Color, user2Color } = useColors();
   const [isDragging, setIsDragging] = useState(false);
 
+  /* ------------------------------------------------------------------ */
+  /* Re‑center the board when the device orientation changes           */
+  /* ------------------------------------------------------------------ */
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    if (container.clientWidth < container.scrollWidth) {
-      container.scrollLeft = (boardSize - container.clientWidth) / 2;
-    }
-    if (container.clientHeight < container.scrollHeight) {
-      container.scrollTop = (boardSize - container.clientHeight) / 2;
-    }
+
+    const recenter = () => {
+      if (container.clientWidth < container.scrollWidth) {
+        container.scrollLeft = (boardSize - container.clientWidth) / 2;
+      }
+      if (container.clientHeight < container.scrollHeight) {
+        container.scrollTop = (boardSize - container.clientHeight) / 2;
+      }
+    };
+
+    recenter(); // on mount
+
+    const ro = new ResizeObserver(recenter);
+    ro.observe(container);
+    return () => ro.disconnect();
   }, []);
 
+  // ------------------------------------------------------------------
+  // Memoize the Paper instance once per style/color change.
+  // ------------------------------------------------------------------
   const paper = useMemo(
     () => new Paper(dotsStyle, boardSize, user1Color, user2Color),
     [dotsStyle, user1Color, user2Color],
@@ -71,9 +86,37 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     [paper],
   );
 
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!containerRef.current) return;
+      setIsDragging(true);
+      hasDraggedRef.current = false;
+      dragStartRef.current = { x: e.clientX, y: e.clientY };
+      scrollStartRef.current = {
+        x: containerRef.current.scrollLeft,
+        y: containerRef.current.scrollTop,
+      };
+    },
+    [],
+  );
+
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (!isDragging) return;
+      const deltaX = dragStartRef.current.x - e.clientX;
+      const deltaY = dragStartRef.current.y - e.clientY;
+      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2)
+        hasDraggedRef.current = true;
+      containerRef.current!.scrollLeft = scrollStartRef.current.x + deltaX;
+      containerRef.current!.scrollTop = scrollStartRef.current.y + deltaY;
+    },
+    [isDragging],
+  );
+
+  const handlePointerUp = useCallback(() => setIsDragging(false), []);
+
   const handleImageClick = useCallback(
     (e: React.MouseEvent<HTMLImageElement>) => {
-      // Don't trigger click if we were dragging
       if (hasDraggedRef.current) {
         hasDraggedRef.current = false;
         return;
@@ -86,123 +129,9 @@ export const GameBoard: React.FC<GameBoardProps> = ({
     [paper, onMoveDone],
   );
 
-  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const container = containerRef.current;
-    if (!container) return;
-    setIsDragging(true);
-    hasDraggedRef.current = false;
-    dragStartRef.current = { x: e.clientX, y: e.clientY };
-    scrollStartRef.current = {
-      x: container.scrollLeft,
-      y: container.scrollTop,
-    };
-  }, []);
-
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isDragging) return;
-      const container = containerRef.current;
-      if (!container) return;
-      const deltaX = dragStartRef.current.x - e.clientX;
-      const deltaY = dragStartRef.current.y - e.clientY;
-      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
-        hasDraggedRef.current = true;
-      }
-      container.scrollLeft = scrollStartRef.current.x + deltaX;
-      container.scrollTop = scrollStartRef.current.y + deltaY;
-    },
-    [isDragging],
-  );
-
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false);
-  }, []);
-
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      if (e.touches.length !== 1) return;
-      const container = containerRef.current;
-      if (!container) return;
-      setIsDragging(true);
-      hasDraggedRef.current = false;
-      dragStartRef.current = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY,
-      };
-      scrollStartRef.current = {
-        x: container.scrollLeft,
-        y: container.scrollTop,
-      };
-    },
-    [],
-  );
-
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      if (!isDragging || e.touches.length !== 1) return;
-      e.preventDefault();
-      const container = containerRef.current;
-      if (!container) return;
-      const deltaX = dragStartRef.current.x - e.touches[0].clientX;
-      const deltaY = dragStartRef.current.y - e.touches[0].clientY;
-      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
-        hasDraggedRef.current = true;
-      }
-      container.scrollLeft = scrollStartRef.current.x + deltaX;
-      container.scrollTop = scrollStartRef.current.y + deltaY;
-    },
-    [isDragging],
-  );
-
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      const wasDragging = isDragging;
-      setIsDragging(false);
-
-      // If it was a tap (no drag) and we touched the image, trigger click
-      if (
-        wasDragging &&
-        !hasDraggedRef.current &&
-        e.target instanceof HTMLImageElement
-      ) {
-        const rect = e.target.getBoundingClientRect();
-        const touch = e.changedTouches[0];
-        if (touch) {
-          onMoveDone(
-            paper.toBoardPosition(
-              touch.clientX - rect.left,
-              touch.clientY - rect.top,
-            ),
-          );
-        }
-      }
-    },
-    [isDragging, paper, onMoveDone],
-  );
-
-  useEffect(() => {
-    if (!isDragging) return;
-    const handleGlobalMouseMove = (e: globalThis.MouseEvent) => {
-      const container = containerRef.current;
-      if (!container) return;
-      const deltaX = dragStartRef.current.x - e.clientX;
-      const deltaY = dragStartRef.current.y - e.clientY;
-      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
-        hasDraggedRef.current = true;
-      }
-      container.scrollLeft = scrollStartRef.current.x + deltaX;
-      container.scrollTop = scrollStartRef.current.y + deltaY;
-    };
-    const handleGlobalMouseUp = () => setIsDragging(false);
-
-    window.addEventListener('mousemove', handleGlobalMouseMove);
-    window.addEventListener('mouseup', handleGlobalMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleGlobalMouseMove);
-      window.removeEventListener('mouseup', handleGlobalMouseUp);
-    };
-  }, [isDragging]);
-
+  // ------------------------------------------------------------------
+  // Render
+  // ------------------------------------------------------------------
   return (
     <Box
       sx={{
@@ -213,13 +142,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         overflow: 'auto',
       }}
       ref={containerRef}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerLeave={handlePointerUp}
     >
       <Box
         sx={{
