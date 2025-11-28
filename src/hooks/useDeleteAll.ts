@@ -3,6 +3,7 @@ import { useColorScheme } from '@mui/material/styles';
 import { clearBotGame } from './singleplayer/userRoom';
 import { clearOnlineGameKey } from './multiplayer/useRoomKey';
 import { resetLanguage } from '../i18n';
+import { deleteAccount } from '../services/authService';
 
 export function useDeleteAll() {
   const { setUserName, setDotsStyle } = useAppContext();
@@ -15,5 +16,6 @@ export function useDeleteAll() {
     setMode(null);
     clearBotGame();
     clearOnlineGameKey();
+    deleteAccount();
   };
 }

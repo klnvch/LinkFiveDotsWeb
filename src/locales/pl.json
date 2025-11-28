@@ -54,8 +54,7 @@
     "languageName": "Polski",
     "main_clear_title": "Wykasuj wszystkie dane",
     "main_clear_confirm_title": "Usunąć wszystkie dane?"
-  }
-  ,
+  },
   "info": {
     "title": "Informacje o aplikacji",
     "version": "wersja {{version}}",
@@ -64,6 +63,11 @@
     "email": "Wyślij e-maila",
     "share": "Udostępnij",
     "copied": "Skopiowano link do schowka"
+  },
+  "signIn": {
+    "title": "Zaloguj się",
+    "anonymous": "Zaloguj się anonimowo",
+    "google": "Zaloguj się przez Google"
   },
   "serviceUnavailable": {
     "title": "Tryb wieloosobowy niedostępny",
@@ -97,5 +101,3 @@
     ]
   }
 }
-
-

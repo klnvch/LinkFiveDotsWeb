@@ -5,13 +5,15 @@ import { PickerPage } from './PickerPage';
 import { GamePage } from '../GamePage';
 import { DisconnectDialog } from '../../components/game/DisconnectDialog';
 import { useRoomNavigation } from '../../hooks/multiplayer/useRoomNavigation';
-import { FoundRemoteRoom, Point } from '@klnvch/link-five-dots-shared';
 import { MultiplayerAppBarTitle } from '../../components/MultiplayerAppBarTitle';
 import {
   isFirebaseConfigured,
   getMissingFirebaseEnvKeys,
 } from '../../firebase';
 import { ServiceUnavailable } from '../../components/ServiceUnavailable';
+import { useAppContext } from '../../context/useAppContext';
+import AuthDialog from '../../components/AuthDialog';
+import { authAnonymously, authGoogle } from '../../services/authService';
 
 const MultiplayerPage: React.FC = () => {
   const {
@@ -26,18 +28,14 @@ const MultiplayerPage: React.FC = () => {
     scanRooms,
     cancelScan,
   } = useRooms();
+  const { userId } = useAppContext();
   const navigate = useNavigate();
   const [disconnectOpen, setDisconnectOpen] = useState(false);
   useRoomNavigation(pickerViewState.screen);
 
-  const handleCreateRoom = useCallback(() => createRoom(), [createRoom]);
-
-  const handleRoomClick = useCallback(
-    (invitation: FoundRemoteRoom) => connectRoom(invitation),
-    [connectRoom],
-  );
-
-  const handleAddDot = useCallback((p: Point) => addDot(p), [addDot]);
+  const handleCreateRoom = useCallback(createRoom, [createRoom]);
+  const handleRoomClick = useCallback(connectRoom, [connectRoom]);
+  const handleAddDot = useCallback(addDot, [addDot]);
 
   const handleDisconnectConfirm = useCallback(async () => {
     await exitGame();
@@ -94,6 +92,11 @@ const MultiplayerPage: React.FC = () => {
           }
         />
       </Routes>
+      <AuthDialog
+        open={!userId}
+        onAnonymousSignIn={authAnonymously}
+        onGoogleSignIn={authGoogle}
+      />
       <DisconnectDialog
         open={disconnectOpen}
         onCancel={handleDisconnectCancel}

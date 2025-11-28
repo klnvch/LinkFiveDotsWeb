@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAuthOrNull } from '../../firebase';
-import { signInAnonymously, onAuthStateChanged, User } from 'firebase/auth';
+import { onAuthStateChanged, User } from 'firebase/auth';
 
 /**
  * Custom hook to provide the current Firebase userId (uid), handling anonymous sign-in.
@@ -11,18 +11,11 @@ export function useUserId(): string | null {
 
   useEffect(() => {
     const auth = getAuthOrNull();
-    if (!auth) {
-      console.warn('Firebase authentication is not configured.');
-      return;
-    }
+    if (!auth) return;
 
-    const unsubscribe = onAuthStateChanged(auth, (user: User | null) => {
-      if (user) {
-        setUserId(user.uid);
-      } else {
-        signInAnonymously(auth).catch((err) => console.error(err));
-      }
-    });
+    const unsubscribe = onAuthStateChanged(auth, (user: User | null) =>
+      setUserId(user?.uid ?? null),
+    );
 
     return () => unsubscribe();
   }, []);

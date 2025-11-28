@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { AppBar, Toolbar, Container, Divider } from '@mui/material';
 import { MultiplayerAppBarTitle } from '../../components/MultiplayerAppBarTitle';
 import {
@@ -34,9 +34,7 @@ export const PickerPage: React.FC<PickerPageProps> = ({
   cancelScan,
 }) => {
   const navigate = useNavigate();
-  const handleBack = () => {
-    navigate(-1);
-  };
+  const handleBack = useCallback(() => navigate(-1), [navigate]);
 
   return (
     <Page>

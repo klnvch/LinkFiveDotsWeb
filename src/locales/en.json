@@ -54,8 +54,7 @@
     "languageName": "English",
     "main_clear_title": "Erase everything",
     "main_clear_confirm_title": "Erase all data?"
-  }
-  ,
+  },
   "info": {
     "title": "App Info",
     "version": "version {{version}}",
@@ -64,6 +63,11 @@
     "email": "Send e-mail",
     "share": "Share",
     "copied": "Link copied to clipboard"
+  },
+  "signIn": {
+    "title": "Sign In",
+    "anonymous": "Sign in anonymously",
+    "google": "Sign in with Google"
   },
   "serviceUnavailable": {
     "title": "Multiplayer unavailable",
@@ -96,4 +100,4 @@
       "Forecast your moves to outsmart your opponent."
     ]
   }
-} 
+}
