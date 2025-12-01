@@ -3,22 +3,64 @@ import {
   GoogleAuthProvider,
   signInAnonymously,
   signInWithPopup,
+  deleteUser,
+  reauthenticateWithPopup,
+  signOut,
+  linkWithPopup,
 } from 'firebase/auth';
 
-export function authAnonymously() {
+const googleProvider = new GoogleAuthProvider();
+
+export async function authAnonymously() {
   const auth = getAuthOrNull();
   if (!auth) return;
-  signInAnonymously(auth).catch((err) => console.error(err));
+
+  try {
+    await signInAnonymously(auth);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-export function authGoogle() {
+export async function authGoogle() {
   const auth = getAuthOrNull();
   if (!auth) return;
-  const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider).catch((err) => console.error(err));
+
+  try {
+    const user = auth.currentUser;
+    switch (user?.isAnonymous) {
+      case true: {
+        await linkWithPopup(user, googleProvider);
+        break;
+      }
+      case undefined: {
+        await signInWithPopup(auth, googleProvider);
+        break;
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-export function deleteAccount() {
+export async function deleteAccount() {
   const auth = getAuthOrNull();
-  auth?.currentUser?.delete()?.catch((err) => console.error(err));
+  if (!auth) return;
+
+  try {
+    const user = auth.currentUser;
+    switch (user?.isAnonymous) {
+      case true: {
+        await signOut(auth);
+        break;
+      }
+      case false: {
+        await reauthenticateWithPopup(user, googleProvider);
+        await deleteUser(user);
+        break;
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
 }

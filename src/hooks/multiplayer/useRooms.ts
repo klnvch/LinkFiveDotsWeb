@@ -4,12 +4,10 @@ import { RoomState, RoomActions } from '../../types/room';
 import * as roomService from '../../services/roomService';
 import {
   createInitialPickerState,
-  createNetworkUser,
   FoundRemoteRoom,
   GameViewState,
   getRoomActionTitle,
   INetworkRoom,
-  NetworkUser,
   mapToGameViewState,
   NetworkGameAction,
   NetworkRoomState,
@@ -30,9 +28,8 @@ import { useTranslatedStrings } from '../../services/stringProvider';
 
 export const useRooms = (): RoomState & RoomActions => {
   const [key, setKey, clearKey] = useRoomKey();
-  const { userId, userName } = useAppContext();
+  const { networkUser } = useAppContext();
   const stringProvider = useTranslatedStrings();
-  const [user, setUser] = useState<NetworkUser | null>(null);
   const [onlineRoom, setOnlineRoom] = useState<OnlineRoom | null>(null);
   const [roomState, setRoomState] = useState<NetworkRoomState | null>(null);
   const [room, setRoom] = useState<INetworkRoom | null>(null);
@@ -45,14 +42,6 @@ export const useRooms = (): RoomState & RoomActions => {
   );
   const scanRef = useRef<Unsubscribe | null>(null);
   const roomRef = useRef<Unsubscribe | null>(null);
-
-  useEffect(() => {
-    if (userId) {
-      setUser(createNetworkUser(userId, userName));
-    } else {
-      setUser(null);
-    }
-  }, [userId, userName]);
 
   useEffect(() => {
     console.log('key', key);
@@ -106,19 +95,19 @@ export const useRooms = (): RoomState & RoomActions => {
   }, [clearKey, roomState]);
 
   useEffect(() => {
-    user && setActionTitle(getRoomActionTitle(user, state, room));
-  }, [user, room, state]);
+    networkUser && setActionTitle(getRoomActionTitle(networkUser, state, room));
+  }, [networkUser, room, state]);
 
   const createRoom = useCallback(async () => {
     try {
       setState(state.creating());
-      const key = await roomService.createRoom(user);
+      const key = await roomService.createRoom(networkUser);
       setKey(key);
     } catch (err) {
       setState(state.reset());
       console.error(err);
     }
-  }, [setKey, state, user]);
+  }, [setKey, state, networkUser]);
 
   const deleteRoom = useCallback(async () => {
     if (!key) return;
@@ -155,7 +144,7 @@ export const useRooms = (): RoomState & RoomActions => {
   const addDot = async (p: Point) => {
     if (!room) return;
     try {
-      await roomService.addDotToRoom(user, room, p);
+      await roomService.addDotToRoom(networkUser, room, p);
     } catch (err) {
       console.error(err);
     }
@@ -173,16 +162,16 @@ export const useRooms = (): RoomState & RoomActions => {
   }, [key, state]);
 
   const scanRooms = useCallback(() => {
-    if (!user) return;
+    if (!networkUser) return;
     scanRef.current = roomService.subscribeToInvitations(
-      user,
+      networkUser,
       stringProvider.unknownName,
       (invitations: FoundRemoteRoom[]) => {
         setState(state.scanning(invitations));
       },
       setKey,
     );
-  }, [user, state, setKey, stringProvider]);
+  }, [networkUser, state, setKey, stringProvider]);
 
   // Unsubscribe on unmount
   useEffect(() => {

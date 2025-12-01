@@ -1,9 +1,10 @@
 import { createContext } from 'react';
-import { DotsStyle } from '@klnvch/link-five-dots-shared';
+import { DotsStyle, NetworkUser } from '@klnvch/link-five-dots-shared';
 
 export type AppState = {
   userName: string | null;
-  userId: string | null;
+  networkUser: NetworkUser | null;
+  isUserAnonymousOrMissing: boolean;
   dotsStyle: DotsStyle;
 };
 

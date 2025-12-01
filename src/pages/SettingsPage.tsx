@@ -26,6 +26,9 @@ import { Content } from '../components/layout/Content';
 import { BackButton } from '../components/BackButton';
 import { Dot } from '../components/Dot';
 import { useDeleteAll } from '../hooks/useDeleteAll';
+import SettingsActionButton from '../components/settings/SettingActionButton';
+import GoogleLogo from '../components/GoogleLogo';
+import { authGoogle } from '../services/authService';
 
 const switchNightMode = (
   mode: 'light' | 'dark' | 'system' | undefined,
@@ -43,7 +46,8 @@ const switchNightMode = (
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { userName, dotsStyle, setDotsStyle } = useAppContext();
+  const { userName, isUserAnonymousOrMissing, dotsStyle, setDotsStyle } =
+    useAppContext();
   const { mode, setMode } = useColorScheme();
   const { t } = useTranslation();
   const deleteAll = useDeleteAll();
@@ -200,18 +204,19 @@ const SettingsPage: React.FC = () => {
                 </Typography>
               </Stack>
             </Button>
-            <Button
+            {isUserAnonymousOrMissing && (
+              <SettingsActionButton
+                startIcon={<GoogleLogo />}
+                onClick={authGoogle}
+                label="signIn.google"
+              />
+            )}
+            <SettingsActionButton
               color="error"
-              variant="outlined"
               startIcon={<DeleteForeverIcon />}
-              fullWidth
               onClick={openClearDialog}
-              sx={{ justifyContent: 'flex-start', py: 1.5 }}
-            >
-              <Typography fontWeight={700}>
-                {t('settings.main_clear_title')}
-              </Typography>
-            </Button>
+              label="settings.main_clear_title"
+            />
           </Stack>
         </Container>
       </Content>

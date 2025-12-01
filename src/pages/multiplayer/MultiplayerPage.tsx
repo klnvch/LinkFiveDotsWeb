@@ -28,7 +28,7 @@ const MultiplayerPage: React.FC = () => {
     scanRooms,
     cancelScan,
   } = useRooms();
-  const { userId } = useAppContext();
+  const { networkUser } = useAppContext();
   const navigate = useNavigate();
   const [disconnectOpen, setDisconnectOpen] = useState(false);
   useRoomNavigation(pickerViewState.screen);
@@ -93,7 +93,7 @@ const MultiplayerPage: React.FC = () => {
         />
       </Routes>
       <AuthDialog
-        open={!userId}
+        open={!networkUser}
         onAnonymousSignIn={authAnonymously}
         onGoogleSignIn={authGoogle}
       />

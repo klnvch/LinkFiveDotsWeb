@@ -1,32 +1,47 @@
 import { useEffect, useMemo, useReducer, useCallback } from 'react';
 import { readUserName, saveUserName } from '../services/userNameSetting';
-import { useUserId } from '../hooks/multiplayer/useUserId';
-import { DotsStyle } from '@klnvch/link-five-dots-shared';
+import { useUser } from '../hooks/useUser';
+import { createNetworkUser, DotsStyle } from '@klnvch/link-five-dots-shared';
 import { readDotsStyle, saveDotsStyle } from '../services/dotsStyleSetting';
 import {
   AppContext,
   type AppContextValue,
   type AppState,
 } from './AppContextBase';
+import { FirebaseUser } from '../types/user';
 
 type AppAction =
   | { type: 'setUserName'; payload: string | null }
-  | { type: 'setUserId'; payload: string | null }
+  | { type: 'setUser'; payload: FirebaseUser | null }
   | { type: 'setDotsStyle'; payload: DotsStyle | null };
 
 const initialState: AppState = {
   userName: null,
-  userId: null,
+  networkUser: null,
+  isUserAnonymousOrMissing: true,
   dotsStyle: DotsStyle.ORIGINAL,
 };
 
 function appReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'setUserName': {
-      return { ...state, userName: action.payload };
+      const id = state.networkUser?.id;
+      const userName = action.payload;
+      return {
+        ...state,
+        userName,
+        networkUser: createNetworkUser(id, userName) ?? null,
+      };
     }
-    case 'setUserId': {
-      return { ...state, userId: action.payload };
+    case 'setUser': {
+      const user = action.payload;
+      const id = user?.id;
+      const userName = state.userName;
+      return {
+        ...state,
+        networkUser: createNetworkUser(id, userName) ?? null,
+        isUserAnonymousOrMissing: !user || user.isAnonymous,
+      };
     }
     case 'setDotsStyle': {
       return { ...state, dotsStyle: action.payload ?? readDotsStyle() };
@@ -42,30 +57,26 @@ function appReducer(state: AppState, action: AppAction): AppState {
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
-  const userId = useUserId();
+  const user = useUser();
 
   // Initialize userName from storage once
-  useEffect(() => {
-    const stored = readUserName();
-    if (stored !== state.userName) {
-      dispatch({ type: 'setUserName', payload: stored });
-    }
-  }, [state.userName]);
+  useEffect(
+    () => dispatch({ type: 'setUserName', payload: readUserName() }),
+    [],
+  );
 
   // Initialize dotsStyle from storage once
-  useEffect(() => {
-    const stored = readDotsStyle();
-    if (stored !== state.dotsStyle) {
-      dispatch({ type: 'setDotsStyle', payload: stored });
-    }
-  }, [state.dotsStyle]);
+  useEffect(
+    () => dispatch({ type: 'setDotsStyle', payload: readDotsStyle() }),
+    [],
+  );
 
   // Sync firebaseUserId from auth
   useEffect(() => {
-    if (userId !== state.userId) {
-      dispatch({ type: 'setUserId', payload: userId });
+    if (user?.id !== state.networkUser?.id) {
+      dispatch({ type: 'setUser', payload: user });
     }
-  }, [userId, state.userId]);
+  }, [user, state.networkUser]);
 
   const setUserName = useCallback((name: string | null) => {
     const trimmed = name?.trim() || null;
