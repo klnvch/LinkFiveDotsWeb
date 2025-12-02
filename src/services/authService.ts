@@ -30,6 +30,7 @@ export async function authGoogle() {
     const user = auth.currentUser;
     switch (user?.isAnonymous) {
       case true: {
+        // TODO: 'auth/credential-already-in-use'
         await linkWithPopup(user, googleProvider);
         break;
       }
