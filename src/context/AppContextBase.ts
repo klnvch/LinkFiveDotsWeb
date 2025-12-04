@@ -3,6 +3,7 @@ import { DotsStyle, NetworkUser } from '@klnvch/link-five-dots-shared';
 
 export type AppState = {
   userName: string | null;
+  userEmail: string | null;
   networkUser: NetworkUser | null;
   isUserAnonymousOrMissing: boolean;
   dotsStyle: DotsStyle;

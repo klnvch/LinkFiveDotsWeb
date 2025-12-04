@@ -4,7 +4,9 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { FirebaseUser } from '../types/user';
 
 function toFirebaseUser(user: User | null): FirebaseUser | null {
-  return user ? { id: user.uid, isAnonymous: user.isAnonymous } : null;
+  return user
+    ? { id: user.uid, isAnonymous: user.isAnonymous, email: user.email }
+    : null;
 }
 
 /**

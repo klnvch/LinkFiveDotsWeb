@@ -17,6 +17,7 @@ type AppAction =
 
 const initialState: AppState = {
   userName: null,
+  userEmail: null,
   networkUser: null,
   isUserAnonymousOrMissing: true,
   dotsStyle: DotsStyle.ORIGINAL,
@@ -41,6 +42,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
         ...state,
         networkUser: createNetworkUser(id, userName) ?? null,
         isUserAnonymousOrMissing: !user || user.isAnonymous,
+        userEmail: user?.email ?? null,
       };
     }
     case 'setDotsStyle': {

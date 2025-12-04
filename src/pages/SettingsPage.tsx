@@ -13,6 +13,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import GrainIcon from '@mui/icons-material/Grain';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import { AppBarTitle } from '../components/AppBarTitle';
 import UserNameSettingDialog from '../components/UserNameSettingDialog';
@@ -28,7 +29,7 @@ import { Dot } from '../components/Dot';
 import { useDeleteAll } from '../hooks/useDeleteAll';
 import SettingsActionButton from '../components/settings/SettingActionButton';
 import GoogleLogo from '../components/GoogleLogo';
-import { authGoogle } from '../services/authService';
+import { authGoogle, logOut } from '../services/authService';
 
 const switchNightMode = (
   mode: 'light' | 'dark' | 'system' | undefined,
@@ -46,8 +47,14 @@ const switchNightMode = (
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
-  const { userName, isUserAnonymousOrMissing, dotsStyle, setDotsStyle } =
-    useAppContext();
+  const {
+    userName,
+    userEmail,
+    networkUser,
+    isUserAnonymousOrMissing,
+    dotsStyle,
+    setDotsStyle,
+  } = useAppContext();
   const { mode, setMode } = useColorScheme();
   const { t } = useTranslation();
   const deleteAll = useDeleteAll();
@@ -105,77 +112,25 @@ const SettingsPage: React.FC = () => {
       <Content sx={{ overflowY: 'auto' }}>
         <Container maxWidth="sm">
           <Stack spacing={1.5} sx={{ p: 2 }}>
-            <Button
-              variant="outlined"
+            <SettingsActionButton
               startIcon={<PersonIcon />}
-              fullWidth
               onClick={openUsernameDialog}
-              sx={{ justifyContent: 'flex-start', py: 1.5 }}
-            >
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ width: '100%' }}
-              >
-                <Typography fontWeight={700}>{t('room.name')}</Typography>
-                <Typography
-                  color="text.secondary"
-                  sx={{ textTransform: 'none' }}
-                >
-                  {userName ?? t('room.unknownUser')}
-                </Typography>
-              </Stack>
-            </Button>
-            <Button
-              variant="outlined"
+              primaryLabel="room.name"
+              secondaryText={userName ?? t('room.unknownUser')}
+            />
+            <SettingsActionButton
               startIcon={<LanguageIcon />}
-              fullWidth
               onClick={openLanguageMenu}
-              sx={{ justifyContent: 'flex-start', py: 1.5 }}
-            >
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ width: '100%' }}
-              >
-                <Typography fontWeight={700}>
-                  {t('settings.language')}
-                </Typography>
-                <Typography
-                  color="text.secondary"
-                  sx={{ textTransform: 'none' }}
-                >
-                  {t('settings.languageName')}
-                </Typography>
-              </Stack>
-            </Button>
-            <LanguageSwitcher anchorEl={lngAnchor} onClose={hideLanguageMenu} />
-            <Button
-              variant="outlined"
+              primaryLabel="settings.language"
+              secondaryText={t('settings.languageName')}
+            />
+
+            <SettingsActionButton
               startIcon={<DarkModeIcon />}
               onClick={changeNightMode}
-              fullWidth
-              sx={{ justifyContent: 'flex-start', py: 1.5 }}
-            >
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ width: '100%' }}
-              >
-                <Typography fontWeight={700}>
-                  {t('common.nightMode')}
-                </Typography>
-                <Typography
-                  color="text.secondary"
-                  sx={{ textTransform: 'none' }}
-                >
-                  {t(`common.nightModeOption.${mode}`)}
-                </Typography>
-              </Stack>
-            </Button>
+              primaryLabel="common.nightMode"
+              secondaryText={t(`common.nightModeOption.${mode}`)}
+            />
             <Button
               variant="outlined"
               startIcon={<GrainIcon />}
@@ -208,14 +163,23 @@ const SettingsPage: React.FC = () => {
               <SettingsActionButton
                 startIcon={<GoogleLogo />}
                 onClick={authGoogle}
-                label="signIn.google"
+                primaryLabel="signIn.google"
+              />
+            )}
+            {networkUser && (
+              <SettingsActionButton
+                color="warning"
+                startIcon={<LogoutIcon />}
+                onClick={logOut}
+                primaryLabel="settings.logout"
+                secondaryText={userEmail ?? undefined}
               />
             )}
             <SettingsActionButton
               color="error"
               startIcon={<DeleteForeverIcon />}
               onClick={openClearDialog}
-              label="settings.main_clear_title"
+              primaryLabel="settings.main_clear_title"
             />
           </Stack>
         </Container>
@@ -224,6 +188,7 @@ const SettingsPage: React.FC = () => {
         open={isNameSettingOpen}
         onDone={hideUsernameDialog}
       />
+      <LanguageSwitcher anchorEl={lngAnchor} onClose={hideLanguageMenu} />
       <ClearDataDialog
         open={isClearDialogOpen}
         onConfirm={confirmClearData}

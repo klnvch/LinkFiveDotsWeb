@@ -52,6 +52,7 @@
   "settings": {
     "language": "Język",
     "languageName": "Polski",
+    "logout": "Wyloguj się",
     "main_clear_title": "Wykasuj wszystkie dane",
     "main_clear_confirm_title": "Usunąć wszystkie dane?"
   },

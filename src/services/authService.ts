@@ -44,6 +44,17 @@ export async function authGoogle() {
   }
 }
 
+export async function logOut() {
+  const auth = getAuthOrNull();
+  if (!auth) return;
+
+  try {
+    await signOut(auth);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function deleteAccount() {
   const auth = getAuthOrNull();
   if (!auth) return;

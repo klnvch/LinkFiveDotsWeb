@@ -1,16 +1,18 @@
-import { Button, ButtonProps, Typography } from '@mui/material';
+import { Button, ButtonProps, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 interface SettingsActionButtonProps {
   startIcon: ButtonProps['startIcon'];
   onClick: ButtonProps['onClick'];
   color?: ButtonProps['color'];
-  label: string;
+  primaryLabel: string;
+  secondaryText?: string;
 }
 
 const SettingsActionButton: React.FC<SettingsActionButtonProps> = ({
   startIcon,
-  label,
+  primaryLabel,
+  secondaryText,
   color,
   onClick,
 }) => {
@@ -24,7 +26,19 @@ const SettingsActionButton: React.FC<SettingsActionButtonProps> = ({
       onClick={onClick}
       sx={{ justifyContent: 'flex-start', py: 1.5 }}
     >
-      <Typography fontWeight={700}>{t(label)}</Typography>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ width: '100%' }}
+      >
+        <Typography fontWeight={700}>{t(primaryLabel)}</Typography>
+        {secondaryText && (
+          <Typography color="text.secondary" sx={{ textTransform: 'none' }}>
+            {secondaryText}
+          </Typography>
+        )}
+      </Stack>
     </Button>
   );
 };
