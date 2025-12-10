@@ -141,3 +141,7 @@ export const subscribeToRoom = (
     onUpdate(toOnlineRoom(snapshot.key, snapshot.val()));
   });
 };
+
+export const updateUserHistory = async (path: string) => {
+  await set(ref(getDb(), path), true);
+};

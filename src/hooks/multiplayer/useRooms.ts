@@ -21,16 +21,21 @@ import {
   toNetworkRoomState,
   toPickerViewState,
   toOnlineRoomLive,
+  saveToUserHistory,
+  OnlineRoomLive,
 } from '@klnvch/link-five-dots-shared';
 import { useRoomKey } from './useRoomKey';
 import { useAppContext } from '../../context/useAppContext';
 import { useTranslatedStrings } from '../../services/stringProvider';
+import { updateUserHistory } from '../../services/roomService';
 
 export const useRooms = (): RoomState & RoomActions => {
   const [key, setKey, clearKey] = useRoomKey();
   const { networkUser } = useAppContext();
+  const latestNetworkUser = useRef(networkUser);
   const stringProvider = useTranslatedStrings();
   const [onlineRoom, setOnlineRoom] = useState<OnlineRoom | null>(null);
+  const prevOnlineRoomLiveRef = useRef<OnlineRoomLive | null>(null);
   const [roomState, setRoomState] = useState<NetworkRoomState | null>(null);
   const [room, setRoom] = useState<INetworkRoom | null>(null);
   const [state, setState] = useState<PickerState>(createInitialPickerState());
@@ -68,6 +73,14 @@ export const useRooms = (): RoomState & RoomActions => {
       if (onlineRoomLive) {
         setRoom(onlineRoomLive.room);
         setGameViewState(mapToGameViewState(stringProvider, onlineRoomLive));
+
+        const user = latestNetworkUser.current;
+        if (user) {
+          const prev = prevOnlineRoomLiveRef.current;
+          const next = onlineRoomLive;
+          saveToUserHistory(prev, next, user, updateUserHistory);
+          prevOnlineRoomLiveRef.current = next;
+        }
       }
       setRoomState(toNetworkRoomState(onlineRoom, stringProvider.unknownName));
     } else {
@@ -100,37 +113,37 @@ export const useRooms = (): RoomState & RoomActions => {
 
   const createRoom = useCallback(async () => {
     try {
-      setState(state.creating());
+      setState((state) => state.creating());
       const key = await roomService.createRoom(networkUser);
       setKey(key);
     } catch (err) {
-      setState(state.reset());
+      setState((state) => state.reset());
       console.error(err);
     }
-  }, [setKey, state, networkUser]);
+  }, [setKey, networkUser]);
 
   const deleteRoom = useCallback(async () => {
     if (!key) return;
     try {
-      setState(state.deleting());
+      setState((state) => state.deleting());
       await roomService.deleteRoom(key);
     } catch (err) {
       console.error(err);
     }
-  }, [key, state]);
+  }, [key]);
 
   const cancelScan = useCallback(() => {
-    setState(state.reset());
+    setState((state) => state.reset());
     if (scanRef.current) {
       scanRef.current();
       scanRef.current = null;
     }
-  }, [state]);
+  }, []);
 
   const connectRoom = useCallback(
     async (invitation: FoundRemoteRoom) => {
       cancelScan();
-      setState(state.connecting());
+      setState((state) => state.connecting());
       invitation.connect(
         () => {},
         (e) => {
@@ -138,7 +151,7 @@ export const useRooms = (): RoomState & RoomActions => {
         },
       );
     },
-    [cancelScan, state],
+    [cancelScan],
   );
 
   const addDot = async (p: Point) => {
@@ -157,9 +170,9 @@ export const useRooms = (): RoomState & RoomActions => {
     } catch (err) {
       console.error(err);
     } finally {
-      setState(state.reset());
+      setState((state) => state.reset());
     }
-  }, [key, state]);
+  }, [key]);
 
   const scanRooms = useCallback(() => {
     if (!networkUser) return;
@@ -167,11 +180,11 @@ export const useRooms = (): RoomState & RoomActions => {
       networkUser,
       stringProvider.unknownName,
       (invitations: FoundRemoteRoom[]) => {
-        setState(state.scanning(invitations));
+        setState((state) => state.scanning(invitations));
       },
       setKey,
     );
-  }, [networkUser, state, setKey, stringProvider]);
+  }, [networkUser, setKey, stringProvider]);
 
   // Unsubscribe on unmount
   useEffect(() => {
