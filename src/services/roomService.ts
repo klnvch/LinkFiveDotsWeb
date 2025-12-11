@@ -142,6 +142,6 @@ export const subscribeToRoom = (
   });
 };
 
-export const updateUserHistory = async (path: string) => {
-  await set(ref(getDb(), path), true);
+export const updateUserHistory = async (path: string, value: string) => {
+  await set(ref(getDb(), path), value);
 };

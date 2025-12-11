@@ -6,7 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@klnvch/link-five-dots-shared": "^0.5.3",
+    "@klnvch/link-five-dots-shared": "^0.5.4",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "firebase": "^12.6.0",
