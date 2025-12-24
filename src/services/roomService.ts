@@ -11,6 +11,7 @@ import {
   DataSnapshot,
   update,
   serverTimestamp,
+  get,
 } from 'firebase/database';
 import {
   roomCreate,
@@ -144,4 +145,18 @@ export const subscribeToRoom = (
 
 export const updateUserHistory = async (path: string, value: string) => {
   await set(ref(getDb(), path), value);
+};
+
+export const readStringArray = async (path: string): Promise<string[]> => {
+  const dbRef = ref(getDb(), path);
+  try {
+    const snapshot = await get(dbRef);
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      return Object.values(data);
+    }
+  } catch (error) {
+    console.error('Error reading data:', error);
+  }
+  return [];
 };

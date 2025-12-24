@@ -40,6 +40,9 @@
   "menu": {
     "help": "Pomoc"
   },
+  "history": {
+    "title": "Historia"
+  },
   "room": {
     "unknownUser": "Nieznany",
     "botUser": "Komputer",

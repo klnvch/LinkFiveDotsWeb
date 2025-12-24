@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { AppBar, Toolbar, Container, Divider } from '@mui/material';
+import { AppBar, Toolbar, Container, Divider, IconButton } from '@mui/material';
 import { MultiplayerAppBarTitle } from '../../components/MultiplayerAppBarTitle';
 import {
   FoundRemoteRoom,
@@ -13,6 +13,7 @@ import { Page } from '../../components/layout/Page';
 import { Content } from '../../components/layout/Content';
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '../../components/BackButton';
+import HistoryIcon from '@mui/icons-material/History';
 
 interface PickerPageProps {
   uiState: PickerViewState;
@@ -35,6 +36,10 @@ export const PickerPage: React.FC<PickerPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const handleBack = useCallback(() => navigate(-1), [navigate]);
+  const handleHistory = useCallback(
+    () => navigate('history', { replace: true }),
+    [navigate],
+  );
 
   return (
     <Page>
@@ -42,6 +47,9 @@ export const PickerPage: React.FC<PickerPageProps> = ({
         <Toolbar>
           <BackButton onClick={handleBack} />
           <MultiplayerAppBarTitle title={title} />
+          <IconButton edge="end" color="inherit" onClick={handleHistory}>
+            <HistoryIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Content>

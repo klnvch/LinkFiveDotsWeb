@@ -14,6 +14,7 @@ import { ServiceUnavailable } from '../../components/ServiceUnavailable';
 import { useAppContext } from '../../context/useAppContext';
 import AuthDialog from '../../components/AuthDialog';
 import { authAnonymously, authGoogle } from '../../services/authService';
+import UserHistoryPage from './UserHistoryPage';
 
 const MultiplayerPage: React.FC = () => {
   const {
@@ -79,6 +80,7 @@ const MultiplayerPage: React.FC = () => {
             />
           }
         />
+        <Route path="history" element={<UserHistoryPage />} />
         <Route
           path="game"
           element={

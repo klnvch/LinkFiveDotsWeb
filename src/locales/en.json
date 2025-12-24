@@ -40,6 +40,10 @@
   "menu": {
     "help": "Help"
   },
+  "history": {
+    "title": "History",
+    "noResult": "Nothing found"
+  },
   "room": {
     "unknownUser": "Unknown",
     "botUser": "Computer",
