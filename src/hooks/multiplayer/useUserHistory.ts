@@ -14,17 +14,15 @@ export const useUserHistory = () => {
   const [history, setHistory] = useState<OnlineGameShortInfo[]>();
 
   useEffect(() => {
-    if (networkUser) {
-      setLoading(true);
-      readUserHistory(networkUser, stringProvider, readStringArray)
-        .then((data) => {
-          setHistory(data);
-        })
-        .catch((e) => console.error(e))
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+    setLoading(true);
+    readUserHistory(networkUser, stringProvider, readStringArray)
+      .then((data) => {
+        setHistory(data);
+      })
+      .catch((e) => console.error(e))
+      .finally(() => {
+        setLoading(false);
+      });
   }, [networkUser, stringProvider]);
 
   return {

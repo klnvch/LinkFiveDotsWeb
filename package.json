@@ -6,7 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@klnvch/link-five-dots-shared": "^0.5.5",
+    "@klnvch/link-five-dots-shared": "^0.5.6",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "firebase": "^12.7.0",
@@ -14,7 +14,7 @@
     "i18next-browser-languagedetector": "^8.2.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-i18next": "^16.5.0",
+    "react-i18next": "^16.5.1",
     "react-router-dom": "^7.11.0"
   },
   "scripts": {
@@ -26,13 +26,13 @@
   "devDependencies": {
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.50.0",
-    "@typescript-eslint/parser": "^8.50.0",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
     "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.25",
+    "eslint-plugin-react-refresh": "^0.4.26",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
     "vite-plugin-pwa": "^1.2.0"

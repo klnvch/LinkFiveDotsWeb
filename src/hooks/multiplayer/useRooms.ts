@@ -21,7 +21,7 @@ import {
   toNetworkRoomState,
   toPickerViewState,
   toOnlineRoomLive,
-  saveToUserHistory,
+  saveUserHistory,
   OnlineRoomLive,
 } from '@klnvch/link-five-dots-shared';
 import { useRoomKey } from './useRoomKey';
@@ -78,7 +78,7 @@ export const useRooms = (): RoomState & RoomActions => {
         if (user) {
           const prev = prevOnlineRoomLiveRef.current;
           const next = onlineRoomLive;
-          saveToUserHistory(prev, next, user, updateUserHistory);
+          saveUserHistory(prev, next, user, updateUserHistory);
           prevOnlineRoomLiveRef.current = next;
         }
       }
