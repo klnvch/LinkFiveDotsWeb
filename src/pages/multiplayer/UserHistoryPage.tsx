@@ -6,8 +6,6 @@ import {
   CircularProgress,
   Container,
   List,
-  ListItem,
-  ListItemText,
   Toolbar,
   Typography,
 } from '@mui/material';
@@ -16,7 +14,7 @@ import { Content } from '../../components/layout/Content';
 import { AppBarTitle } from '../../components/AppBarTitle';
 import { useUserHistory } from '../../hooks/multiplayer/useUserHistory';
 import { useTranslation } from 'react-i18next';
-import StatusIcon from '../../components/history/StatusIcon';
+import { HistoryItemCard } from '../../components/history/HistoryItemCard';
 
 interface UserHistoryProps {}
 
@@ -46,31 +44,9 @@ const UserHistoryPage: React.FC<UserHistoryProps> = () => {
             </Typography>
           ) : (
             // 3️⃣ Ready – show list of items
-            <List disablePadding>
+            <List>
               {history.map((item) => (
-                <ListItem key={item.timeText} sx={{ mb: 1, p: 0 }}>
-                  <StatusIcon status={item.status} />
-                  <ListItemText
-                    primary={
-                      <Typography variant="subtitle1" fontWeight="medium">
-                        {`${item.user1Name} vs ${item.user2Name}`}
-                      </Typography>
-                    }
-                    secondary={
-                      <>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${t('settings_dots')}: ${item.sizeText}`}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {`${t('time')}: ${item.timeText}`}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {`${t('duration')}: ${item.durationText}`}
-                        </Typography>
-                      </>
-                    }
-                  />
-                </ListItem>
+                <HistoryItemCard key={item.timeText} item={item} />
               ))}
             </List>
           )}

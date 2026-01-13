@@ -1,9 +1,10 @@
 import { OnlineGameShortInfoStatus } from '@klnvch/link-five-dots-shared';
 import { IconButton, Tooltip, useTheme } from '@mui/material';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import CloseIcon from '@mui/icons-material/Close';
-import RemoveIcon from '@mui/icons-material/Remove';
-import TimerIcon from '@mui/icons-material/Timer';
+import CancelIcon from '@mui/icons-material/Cancel';
+import BalanceIcon from '@mui/icons-material/Balance';
+import PendingIcon from '@mui/icons-material/Pending';
+import { useTranslation } from 'react-i18next';
 
 interface StatusIconProps {
   status: OnlineGameShortInfoStatus;
@@ -14,28 +15,29 @@ interface StatusIconProps {
  */
 const StatusIcon: React.FC<StatusIconProps> = ({ status }) => {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   // Map each status to an icon, color and tooltip text
   const map = {
     [OnlineGameShortInfoStatus.Won.name]: {
       icon: <EmojiEventsIcon />,
-      color: theme.palette.primary.main,
-      label: 'Won',
+      color: theme.palette.success.main,
+      label: t('history.status.won'),
     },
     [OnlineGameShortInfoStatus.Lost.name]: {
-      icon: <CloseIcon />,
+      icon: <CancelIcon />,
       color: theme.palette.error.main,
-      label: 'Lost',
+      label: t('history.status.lost'),
     },
     [OnlineGameShortInfoStatus.Draw.name]: {
-      icon: <RemoveIcon />,
+      icon: <BalanceIcon />,
       color: theme.palette.info?.main,
-      label: 'Draw',
+      label: t('history.status.draw'),
     },
     [OnlineGameShortInfoStatus.InProgress.name]: {
-      icon: <TimerIcon />,
-      color: theme.palette.secondary.main,
-      label: 'In‑Progress',
+      icon: <PendingIcon />,
+      color: theme.palette.warning.main,
+      label: t('history.status.inProgress'),
     },
   } as const;
 
@@ -43,7 +45,7 @@ const StatusIcon: React.FC<StatusIconProps> = ({ status }) => {
 
   return (
     <Tooltip title={label}>
-      <IconButton sx={{ color, p: 0.5 }}>{icon}</IconButton>
+      <IconButton sx={{ color }}>{icon}</IconButton>
     </Tooltip>
   );
 };

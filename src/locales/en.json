@@ -42,7 +42,16 @@
   },
   "history": {
     "title": "History",
-    "noResult": "Nothing found"
+    "noResult": "Nothing found",
+    "dots": "Dots",
+    "time": "Time",
+    "duration": "Duration",
+    "status": {
+      "won": "Won",
+      "lost": "Lost",
+      "draw": "Draw",
+      "inProgress": "In progress"
+    }
   },
   "room": {
     "unknownUser": "Unknown",
