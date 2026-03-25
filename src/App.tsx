@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense, useEffect, useState } from 'react';
-import './i18n';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Fade from '@mui/material/Fade';
@@ -17,6 +16,23 @@ const InfoPage = lazy(() => import('./pages/InfoPage'));
 const HelpPage = lazy(() => import('./pages/HelpPage'));
 
 function App() {
+  // i18next init uses browser globals (localStorage/navigator), so load it after mount.
+  const [i18nReady, setI18nReady] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    import('./i18n')
+      .then(() => {
+        if (!cancelled) setI18nReady(true);
+      })
+      .catch(() => {
+        // If i18n fails, keep the UI functional (it will just fall back to defaults/keys).
+        if (!cancelled) setI18nReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const FallbackLoader = () => {
     const [show, setShow] = useState(false);
     useEffect(() => {
@@ -32,6 +48,10 @@ function App() {
       </Box>
     );
   };
+
+  if (!i18nReady) {
+    return <FallbackLoader />;
+  }
 
   return (
     <>
